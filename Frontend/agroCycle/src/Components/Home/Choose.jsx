@@ -1,6 +1,12 @@
+import { motion } from "framer-motion";
+import { fadeUp } from "../../lib/motion";
+
 function Choose({ icon, title, description }) {
   return (
-    <div className="border border-none shadow-md p-6 rounded-2xl w-full max-w-sm m-4 hover:shadow-xl transition duration-300 bg-white">
+    <motion.div
+      variants={fadeUp}
+      className="border border-none shadow-md p-6 rounded-2xl w-full max-w-sm m-4 hover:shadow-xl transition duration-300 bg-white"
+    >
       <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 hover:bg-green-200 transition duration-300">
         {icon}
       </div>
@@ -10,7 +16,7 @@ function Choose({ icon, title, description }) {
       </h3>
 
       <p className="text-gray-600 mt-4 leading-relaxed">{description}</p>
-    </div>
+    </motion.div>
   );
 }
 

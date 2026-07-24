@@ -11,6 +11,7 @@ class WasteListing extends Model
         'category_id',
         'quantity',
         'unit',
+        'price',
         'location',
         'description',
         'status'

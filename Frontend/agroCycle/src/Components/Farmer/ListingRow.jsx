@@ -1,47 +1,55 @@
-import { Eye, Pencil, Trash2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { Pencil, Trash2 } from "lucide-react";
+import { fadeUp } from "../../lib/motion";
 
-function ListingRow({ type, quantity, status, views, requests }) {
+const statusColors = {
+  Approved: "bg-green-100 text-green-700",
+  Pending: "bg-yellow-100 text-yellow-700",
+  Rejected: "bg-red-100 text-red-700",
+  Sold: "bg-gray-200 text-gray-700",
+};
+
+function ListingRow({ listing, onEdit, onDelete }) {
+  const priceLabel =
+    listing.price != null ? `LKR ${Number(listing.price).toLocaleString()}` : "Free";
+
   return (
-    <tr className="border-b h-20">
-      <td>{type}</td>
+    <motion.tr variants={fadeUp} className="border-b h-20">
+      <td>{listing.category?.name}</td>
 
-      <td>{quantity}</td>
+      <td>
+        {listing.quantity} {listing.unit}
+      </td>
+
+      <td>{priceLabel}</td>
 
       <td>
         <span
-          className={`px-3 py-1 rounded-full text-sm
-                    ${
-                      status === "Active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-gray-200 text-gray-700"
-                    }`}
+          className={`px-3 py-1 rounded-full text-sm ${
+            statusColors[listing.status] || "bg-gray-200 text-gray-700"
+          }`}
         >
-          {status}
+          {listing.status}
         </span>
       </td>
 
       <td>
-        <div className="flex items-center gap-2">
-          <Eye size={16} />
-
-          {views}
-        </div>
-      </td>
-
-      <td>
         <span className="bg-blue-100 text-blue-700 rounded-full px-3 py-1">
-          {requests}
+          {listing.buyer_requests?.length ?? 0}
         </span>
       </td>
 
       <td>
         <div className="flex gap-3">
-          <Pencil className="text-blue-600 cursor-pointer" />
-
-          <Trash2 className="text-red-600 cursor-pointer" />
+          <button onClick={onEdit} title="Edit">
+            <Pencil className="text-blue-600 cursor-pointer" size={18} />
+          </button>
+          <button onClick={onDelete} title="Delete">
+            <Trash2 className="text-red-600 cursor-pointer" size={18} />
+          </button>
         </div>
       </td>
-    </tr>
+    </motion.tr>
   );
 }
 

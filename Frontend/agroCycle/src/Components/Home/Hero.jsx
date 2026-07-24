@@ -1,5 +1,7 @@
 import logo from "../../assets/logo2.png";
 import bgVideo from "../../assets/bg-video1.mp4";
+import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   Sprout,
@@ -16,8 +18,11 @@ import {
 import HowItworksCard from "./HowItworksCard";
 import Choose from "./Choose";
 import ReuseIdeas from "./ReuseIdeas";
+import { staggerContainer } from "../../lib/motion";
 
 function Hero() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <section className="relative h-screen flex flex-col items-center justify-start pt-40 overflow-hidden">
@@ -50,12 +55,18 @@ function Hero() {
           </div>
 
           <div className="mt-10 flex justify-center gap-6">
-            <button className="bg-green-700 hover:bg-green-800 hover:scale-105 cursor-pointer text-white font-semibold py-2 px-4 rounded flex items-center gap-2 transition">
+            <button
+              onClick={() => navigate("/register")}
+              className="bg-green-700 hover:bg-green-800 hover:scale-105 cursor-pointer text-white font-semibold py-2 px-4 rounded flex items-center gap-2 transition"
+            >
               Get Started
               <ArrowRight size={18} />
             </button>
 
-            <button className="bg-transparent border border-green-600 cursor-pointer text-green-500 font-semibold py-2 px-4 rounded hover:bg-green-700 hover:text-white hover:scale-105 transition">
+            <button
+              onClick={() => navigate("/addwaste")}
+              className="bg-transparent border border-green-600 cursor-pointer text-green-500 font-semibold py-2 px-4 rounded hover:bg-green-700 hover:text-white hover:scale-105 transition"
+            >
               Add Waste
             </button>
           </div>
@@ -67,7 +78,13 @@ function Hero() {
           <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
         </div>
 
-        <div className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14"
+        >
           <HowItworksCard
             icon={<Sprout size={40} />}
             number="1"
@@ -88,7 +105,7 @@ function Hero() {
             title="Earn & Help Earth"
             description="Generate income from agricultural waste while supporting sustainability."
           />
-        </div>
+        </motion.div>
       </section>
 
       <section className="bg-green-50 py-20 px-6">
@@ -98,7 +115,13 @@ function Hero() {
           </h2>
         </div>
 
-        <div className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14"
+        >
           <Choose
             icon={<Leaf size={40} />}
             title="Eco-Friendly"
@@ -116,7 +139,7 @@ function Hero() {
             title="Circular Economy"
             description="Be part of the recycling movement. Help create a closed-loop system that benefits everyone."
           />
-        </div>
+        </motion.div>
       </section>
       <section className="py-20 px-6 bg-white">
         <div className="bg-green-700 shadow-xl rounded-2xl p-10 max-w-7xl mx-auto text-center">
@@ -129,7 +152,10 @@ function Hero() {
             earning an extra income.
           </p>
 
-          <button className="bg-white cursor-pointer text-green-700 font-semibold py-3 px-6 rounded-xl flex items-center gap-3 mx-auto mt-8 hover:scale-105 transition duration-300">
+          <button
+            onClick={() => navigate("/register")}
+            className="bg-white cursor-pointer text-green-700 font-semibold py-3 px-6 rounded-xl flex items-center gap-3 mx-auto mt-8 hover:scale-105 transition duration-300"
+          >
             Join Now
             <ArrowRight size={20} />
           </button>
@@ -150,7 +176,13 @@ function Hero() {
           products
         </p>
 
-        <div className="max-w-6xl mx-auto mt-10 grid md:grid-cols-3 gap-14">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="max-w-6xl mx-auto mt-10 grid md:grid-cols-3 gap-14"
+        >
           <ReuseIdeas
             icon={<Wheat size={40} />}
             title="Rice Husk"
@@ -203,7 +235,7 @@ function Hero() {
             item3="Paper Production"
             item4="Particle Board"
           />
-        </div>
+        </motion.div>
       </section>
       <div className="bg-green-50 mx-150 my-10 p-4 border border-green-700/40 rounded-xl">
         <p className="text-center text-gray-700 text-md leading-relaxed  ">

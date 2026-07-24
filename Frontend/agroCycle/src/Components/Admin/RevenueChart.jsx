@@ -1,4 +1,4 @@
-import React from "react";
+import { motion } from "framer-motion";
 import {
   BarChart,
   Bar,
@@ -7,30 +7,40 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { fadeUp } from "../../lib/motion";
 
-const revenue = [
-  { month: "Jan", amount: 80000 },
-  { month: "Feb", amount: 120000 },
-  { month: "Mar", amount: 160000 },
-  { month: "Apr", amount: 220000 },
-  { month: "May", amount: 280000 },
-];
-
-function RevenueChart() {
+function RevenueChart({ data }) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow">
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      className="bg-white p-6 rounded-2xl shadow"
+    >
       <h2 className="text-3xl font-bold mb-8">Revenue Trend</h2>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={revenue}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
+      {!data ? (
+        <div className="h-[300px] flex items-center justify-center text-gray-400">
+          Loading chart...
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={data}>
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip formatter={(value) => `LKR ${Number(value).toLocaleString()}`} />
 
-          <Bar dataKey="amount" fill="#22c55e" radius={[8, 8, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+            <Bar
+              dataKey="amount"
+              fill="#22c55e"
+              radius={[8, 8, 0, 0]}
+              isAnimationActive
+              animationDuration={800}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
+    </motion.div>
   );
 }
 

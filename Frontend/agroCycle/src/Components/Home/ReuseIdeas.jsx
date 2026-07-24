@@ -1,8 +1,9 @@
-import React from "react";
+import { motion } from "framer-motion";
+import { fadeUp } from "../../lib/motion";
 
 function ReuseIdeas({ icon, title, item1, item2, item3, item4 }) {
   return (
-    <div>
+    <motion.div variants={fadeUp}>
       <div className="bg-green-50/40 border border-none shadow-md p-6 rounded-2xl w-full max-w-sm m-4 hover:shadow-xl transition duration-300">
         <div className="w-24 h-24 bg-green-100/50 rounded-full flex items-center justify-center mx-auto text-green-600 hover:bg-green-200 transition duration-300">
           {icon}
@@ -31,7 +32,7 @@ function ReuseIdeas({ icon, title, item1, item2, item3, item4 }) {
           </li>
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

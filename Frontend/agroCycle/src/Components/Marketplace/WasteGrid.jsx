@@ -1,106 +1,35 @@
-import React from "react";
+import { motion } from "framer-motion";
 import WasteCard from "./WasteCard";
+import { staggerContainer } from "../../lib/motion";
 
-function WasteGrid() {
-  const wasteData = [
-    {
-      title: "Rice Husk",
-      weight: "500 kg",
-      description:
-        "Fresh rice husk from recent harvest, suitable for fertilizer production",
-      location: "Katugastota, Kandy",
-      farmer: "Farmer Rajesh",
-      date: "Apr 28, 2026",
-    },
+function WasteGrid({ listings, loading }) {
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto mt-10 py-10 text-center text-gray-500">
+        Loading listings...
+      </div>
+    );
+  }
 
-    {
-      title: "Coconut Shell",
-      weight: "300 kg",
-      description:
-        "Clean coconut shells, perfect for charcoal or craft production",
-      location: "Katugastota, Kandy",
-      farmer: "Coconut Farm Co-op",
-      date: "Apr 29, 2026",
-    },
-
-    {
-      title: "Wheat Straw",
-      weight: "1000 kg",
-      description: "Dry wheat straw available for biofuel or animal feed",
-      location: "Katugastota, Kandy",
-      farmer: "Sharma Farms",
-      date: "Apr 30, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-
-    {
-      title: "Sugarcane Bagasse",
-      weight: "700 kg",
-      description: "Organic sugarcane waste suitable for bioenergy production",
-      location: "Katugastota, Kandy",
-      farmer: "Green Valley Farms",
-      date: "May 1, 2026",
-    },
-  ];
+  if (!listings || listings.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto mt-10 py-16 text-center text-gray-500">
+        No waste listings match your search yet.
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto mt-10  grid md:grid-cols-3 gap-10 py-10">
-      {wasteData.map((waste, index) => (
-        <WasteCard
-          key={index}
-          title={waste.title}
-          weight={waste.weight}
-          description={waste.description}
-          item1={waste.location}
-          item2={waste.farmer}
-          item3={waste.date}
-        />
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+      className="max-w-7xl mx-auto mt-10 grid md:grid-cols-3 gap-10 py-10"
+    >
+      {listings.map((listing) => (
+        <WasteCard key={listing.id} listing={listing} />
       ))}
-    </div>
+    </motion.div>
   );
 }
 

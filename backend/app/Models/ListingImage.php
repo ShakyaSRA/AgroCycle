@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ListingImage extends Model
 {
-    //
+    protected $fillable = [
+        'listing_id',
+        'image_path',
+    ];
+
+    public function listing()
+    {
+        return $this->belongsTo(WasteListing::class, 'listing_id');
+    }
 }

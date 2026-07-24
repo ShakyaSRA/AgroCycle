@@ -1,27 +1,84 @@
-import React from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import PendingCard from "./PendingCard";
+import ListingDetailModal from "./ListingDetailModal";
+import { staggerContainer } from "../../lib/motion";
 
-function PendingReviews() {
+function PendingReviews({
+  listings,
+  categoryRequests,
+  loading,
+  onListingDecision,
+  onCategoryRequestDecision,
+}) {
+  const [viewingListing, setViewingListing] = useState(null);
+
   return (
     <div className="bg-white rounded-2xl shadow p-6 mt-10">
       <h2 className="text-4xl font-bold mb-8">Pending Listings for Review</h2>
 
-      <div className="space-y-6">
-        <PendingCard
-          title="Rice Husk"
-          details="500 kg • Punjab, India"
-          user="Farmer Rajesh"
-          date="18/05/2026"
-        />
+      {loading ? (
+        <p className="text-gray-500">Loading...</p>
+      ) : listings.length === 0 ? (
+        <p className="text-gray-500">No listings awaiting review.</p>
+      ) : (
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="space-y-6"
+        >
+          {listings.map((listing) => (
+            <PendingCard
+              key={listing.id}
+              title={listing.category?.name}
+              details={`${listing.quantity} ${listing.unit} • ${listing.location}`}
+              user={listing.farmer?.name}
+              date={new Date(listing.created_at).toLocaleDateString()}
+              flagged={Number(listing.quantity) > 5000}
+              onApprove={() => onListingDecision(listing.id, "Approved")}
+              onReject={() => onListingDecision(listing.id, "Rejected")}
+              onView={() => setViewingListing(listing)}
+            />
+          ))}
+        </motion.div>
+      )}
 
-        <PendingCard
-          title="Suspicious Listing"
-          details="10000 kg • Unknown"
-          user="Test User"
-          date="19/05/2026"
-          flagged
-        />
-      </div>
+      {categoryRequests.length > 0 && (
+        <>
+          <h2 className="text-4xl font-bold mb-8 mt-12">
+            Pending Category Requests
+          </h2>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+            className="space-y-6"
+          >
+            {categoryRequests.map((request) => (
+              <PendingCard
+                key={request.id}
+                title={request.name}
+                details={request.description || "No description provided."}
+                user={request.farmer?.name}
+                date={new Date(request.created_at).toLocaleDateString()}
+                onApprove={() => onCategoryRequestDecision(request.id, "Approved")}
+                onReject={() => onCategoryRequestDecision(request.id, "Rejected")}
+              />
+            ))}
+          </motion.div>
+        </>
+      )}
+
+      <AnimatePresence>
+        {viewingListing && (
+          <ListingDetailModal
+            listing={viewingListing}
+            onClose={() => setViewingListing(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,7 +1,23 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Search, Boxes } from "lucide-react";
+import { getCategories } from "../../api/categories";
 
-function SearchFilterBar() {
+function SearchFilterBar({
+  search,
+  onSearchChange,
+  categoryId,
+  onCategoryChange,
+  resultCount,
+  totalCount,
+}) {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getCategories()
+      .then(setCategories)
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto mt-8">
       <div className="bg-white rounded-3xl shadow-md p-6">
@@ -11,6 +27,8 @@ function SearchFilterBar() {
 
             <input
               type="text"
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search by type, location, or description..."
               className="w-full ml-3 outline-none text-gray-700"
             />
@@ -19,17 +37,24 @@ function SearchFilterBar() {
           <div className="flex items-center border border-gray-300 rounded-2xl px-4 py-4">
             <Boxes className="text-gray-400" size={20} />
 
-            <select className="w-full ml-3 outline-none bg-transparent text-gray-700 cursor-pointer">
-              <option>All Types</option>
-              <option>Rice Husk</option>
-              <option>Coconut Shell</option>
-              <option>Wheat Straw</option>
-              <option>Sugarcane Bagasse</option>
+            <select
+              value={categoryId}
+              onChange={(e) => onCategoryChange(e.target.value)}
+              className="w-full ml-3 outline-none bg-transparent text-gray-700 cursor-pointer"
+            >
+              <option value="">All Types</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
-        <p className="text-gray-500 mt-6">Showing 6 of 6 listings</p>
+        <p className="text-gray-500 mt-6">
+          Showing {resultCount ?? 0} of {totalCount ?? 0} listings
+        </p>
       </div>
     </div>
   );

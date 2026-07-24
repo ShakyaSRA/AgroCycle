@@ -1,6 +1,9 @@
+import { motion } from "framer-motion";
+import { fadeUp } from "../../lib/motion";
+
 function HowItworksCard({ icon, number, title, description }) {
   return (
-    <div className="text-center">
+    <motion.div variants={fadeUp} className="text-center">
       <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto text-green-600 hover:bg-green-200">
         {icon}
       </div>
@@ -14,7 +17,7 @@ function HowItworksCard({ icon, number, title, description }) {
       </h3>
 
       <p className="text-gray-600 mt-4 leading-relaxed">{description}</p>
-    </div>
+    </motion.div>
   );
 }
 

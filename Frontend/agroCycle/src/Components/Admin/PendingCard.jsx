@@ -1,9 +1,12 @@
-import React from "react";
+import { motion } from "framer-motion";
 import { Check, X, Eye } from "lucide-react";
+import { fadeUp } from "../../lib/motion";
 
-function PendingCard({ title, details, user, date, flagged }) {
+function PendingCard({ title, details, user, date, flagged, onApprove, onReject, onView }) {
   return (
-    <div
+    <motion.div
+      variants={fadeUp}
+      layout
       className={`rounded-2xl border p-5 ${
         flagged ? "border-red-300 bg-red-50" : "border-gray-200"
       }`}
@@ -28,21 +31,32 @@ function PendingCard({ title, details, user, date, flagged }) {
       </div>
 
       <div className="flex gap-3 mt-6">
-        <button className="flex-1 bg-green-600 text-white py-3 rounded-xl flex justify-center items-center gap-2">
+        <button
+          onClick={onApprove}
+          className="flex-1 bg-green-600 text-white py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-green-700"
+        >
           <Check size={18} />
           Approve
         </button>
 
-        <button className="flex-1 bg-red-600 text-white py-3 rounded-xl flex justify-center items-center gap-2">
+        <button
+          onClick={onReject}
+          className="flex-1 bg-red-600 text-white py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-red-700"
+        >
           <X size={18} />
           Reject
         </button>
 
-        <button className="px-4 border rounded-xl">
-          <Eye />
-        </button>
+        {onView && (
+          <button
+            onClick={onView}
+            className="px-4 border rounded-xl hover:bg-gray-50"
+          >
+            <Eye />
+          </button>
+        )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -1,38 +1,69 @@
+import { motion } from "framer-motion";
 import { Users, Box, DollarSign, TrendingUp } from "lucide-react";
 
 import StatsCard from "../Admin/StatsCard";
+import { staggerContainer } from "../../lib/motion";
 
-function FarmerStats() {
+function currency(amount) {
+  return `LKR ${Number(amount || 0).toLocaleString()}`;
+}
+
+function FarmerStats({ listings, requests }) {
+  const activeListings = listings.filter((l) => l.status === "Approved").length;
+  const totalRequests = requests.length;
+
+  const soldListings = listings.filter((l) => l.status === "Sold");
+  const totalSales = soldListings.reduce(
+    (sum, l) => sum + Number(l.price || 0),
+    0
+  );
+
+  const now = new Date();
+  const thisMonthSales = soldListings
+    .filter((l) => {
+      const updated = new Date(l.updated_at);
+      return (
+        updated.getMonth() === now.getMonth() &&
+        updated.getFullYear() === now.getFullYear()
+      );
+    })
+    .reduce((sum, l) => sum + Number(l.price || 0), 0);
+
   return (
-    <div className="grid md:grid-cols-4 gap-6 mt-10">
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+      className="grid md:grid-cols-4 gap-6 mt-10"
+    >
       <StatsCard
         title="Active Listings"
-        value="2"
+        value={activeListings}
         icon={<Box />}
         iconColor="bg-blue-500 text-white"
       />
 
       <StatsCard
         title="Total Requests"
-        value="2"
+        value={totalRequests}
         icon={<Users />}
         iconColor="bg-green-500 text-white"
       />
 
       <StatsCard
         title="Total Sales"
-        value="₹25,000"
+        value={currency(totalSales)}
         icon={<DollarSign />}
         iconColor="bg-purple-500 text-white"
       />
 
       <StatsCard
         title="This Month"
-        value="₹8,500"
+        value={currency(thisMonthSales)}
         icon={<TrendingUp />}
         iconColor="bg-orange-500 text-white"
       />
-    </div>
+    </motion.div>
   );
 }
 

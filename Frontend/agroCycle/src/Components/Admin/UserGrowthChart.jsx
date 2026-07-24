@@ -1,4 +1,4 @@
-import React from "react";
+import { motion } from "framer-motion";
 import {
   LineChart,
   Line,
@@ -7,30 +7,42 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { fadeUp } from "../../lib/motion";
 
-const data = [
-  { month: "Jan", users: 45 },
-  { month: "Feb", users: 62 },
-  { month: "Mar", users: 78 },
-  { month: "Apr", users: 95 },
-  { month: "May", users: 112 },
-];
-
-function UserGrowthChart() {
+function UserGrowthChart({ data }) {
   return (
-    <div className="bg-white p-6 rounded-2xl shadow">
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      animate="show"
+      className="bg-white p-6 rounded-2xl shadow"
+    >
       <h2 className="text-3xl font-bold mb-8">User Growth</h2>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip />
+      {!data ? (
+        <div className="h-[300px] flex items-center justify-center text-gray-400">
+          Loading chart...
+        </div>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <XAxis dataKey="month" />
+            <YAxis allowDecimals={false} />
+            <Tooltip />
 
-          <Line type="monotone" dataKey="users" stroke="#2563eb" />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+            <Line
+              type="monotone"
+              dataKey="users"
+              stroke="#2563eb"
+              strokeWidth={2}
+              dot={{ r: 4 }}
+              isAnimationActive
+              animationDuration={800}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
+    </motion.div>
   );
 }
 
