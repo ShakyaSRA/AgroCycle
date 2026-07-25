@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import BuyerStats from "../Components/Buyer/BuyerStats";
@@ -14,14 +15,24 @@ function BuyerD() {
   const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState(null);
 
-  useEffect(() => {
+  const loadData = useCallback(() => {
+    setLoading(true);
     getBuyerRequests()
       .then(setRequests)
       .catch(() => showToast("Could not load your requests.", "error"))
       .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const visibleRequests = statusFilter
+    ? requests.filter((r) => r.status === statusFilter)
+    : requests;
 
   return (
     <>
@@ -47,16 +58,30 @@ function BuyerD() {
             </motion.button>
           </div>
 
-          <BuyerStats requests={requests} />
+          <BuyerStats requests={requests} onFilter={setStatusFilter} />
 
-          <div className="bg-white rounded-2xl shadow p-8 mt-10">
-            <h2 className="text-3xl font-bold mb-8">My Requests</h2>
+          <div id="my-requests" className="bg-white rounded-2xl shadow p-8 mt-10">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-3xl font-bold">My Requests</h2>
+
+              {statusFilter && (
+                <button
+                  onClick={() => setStatusFilter(null)}
+                  className="flex items-center gap-2 bg-green-50 text-green-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-green-100"
+                >
+                  Filtered: {statusFilter}
+                  <X size={14} />
+                </button>
+              )}
+            </div>
 
             {loading ? (
               <p className="text-gray-500">Loading requests...</p>
-            ) : requests.length === 0 ? (
+            ) : visibleRequests.length === 0 ? (
               <p className="text-gray-500">
-                You haven't requested any waste materials yet.
+                {statusFilter
+                  ? `No ${statusFilter.toLowerCase()} requests.`
+                  : "You haven't requested any waste materials yet."}
               </p>
             ) : (
               <motion.div
@@ -65,8 +90,12 @@ function BuyerD() {
                 animate="show"
                 className="space-y-6"
               >
-                {requests.map((request) => (
-                  <BuyerRequestCard key={request.id} request={request} />
+                {visibleRequests.map((request) => (
+                  <BuyerRequestCard
+                    key={request.id}
+                    request={request}
+                    onPaymentComplete={loadData}
+                  />
                 ))}
               </motion.div>
             )}

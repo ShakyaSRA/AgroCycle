@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { MapPin, User, Calendar, Send } from "lucide-react";
+import { MapPin, User, Calendar, Send, ImageOff } from "lucide-react";
 import { fadeUp } from "../../lib/motion";
 import { useAuth } from "../../context/AuthContext";
 import { useToast } from "../../context/ToastContext";
 import { createBuyerRequest } from "../../api/buyerRequests";
+import { API_URL } from "../../api/client";
 
 function WasteCard({ listing }) {
   const { user } = useAuth();
@@ -60,23 +61,37 @@ function WasteCard({ listing }) {
   return (
     <motion.div
       variants={fadeUp}
-      className="border border-green-100 border-t-4 border-t-green-600 shadow-md p-6 rounded-2xl bg-white hover:shadow-xl transition duration-300"
+      whileHover={{ y: -4 }}
+      className="overflow-hidden border border-green-100 shadow-md rounded-2xl bg-white hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="flex justify-between items-center gap-4">
-        <h3 className="text-2xl font-bold text-gray-900 hover:text-green-700 transition duration-300">
-          {listing.category?.name}
-        </h3>
-
-        <div className="mt-4 inline-block bg-green-100 text-green-600 px-4 py-1 rounded-full font-medium whitespace-nowrap">
-          {listing.quantity} {listing.unit}
+      {listing.images?.length ? (
+        <img
+          src={`${API_URL}/storage/${listing.images[0].image_path}`}
+          alt={listing.category?.name || "Waste listing"}
+          className="w-full h-48 object-cover"
+        />
+      ) : (
+        <div className="w-full h-48 bg-gradient-to-br from-green-100 to-emerald-50 flex items-center justify-center">
+          <ImageOff className="text-green-300" size={40} />
         </div>
-      </div>
+      )}
 
-      <p className="text-green-700 font-semibold mt-2">{priceLabel}</p>
+      <div className="p-6">
+        <div className="flex justify-between items-center gap-4">
+          <h3 className="text-2xl font-bold text-gray-900 hover:text-green-700 transition duration-300">
+            {listing.category?.name}
+          </h3>
 
-      <p className="text-gray-600 mt-4 leading-relaxed">
-        {listing.description}
-      </p>
+          <div className="mt-4 inline-block bg-green-100 text-green-600 px-4 py-1 rounded-full font-medium whitespace-nowrap">
+            {listing.quantity} {listing.unit}
+          </div>
+        </div>
+
+        <p className="text-green-700 font-semibold mt-2">{priceLabel}</p>
+
+        <p className="text-gray-600 mt-4 leading-relaxed">
+          {listing.description}
+        </p>
 
       <ul className="mt-6 space-y-3 text-gray-700">
         <li className="flex items-center gap-3">
@@ -134,6 +149,7 @@ function WasteCard({ listing }) {
           {sent ? "Request Sent" : "Request Pickup"}
         </motion.button>
       )}
+      </div>
     </motion.div>
   );
 }

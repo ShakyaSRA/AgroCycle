@@ -1,13 +1,26 @@
 import { motion } from "framer-motion";
 import { fadeUp } from "../../lib/motion";
 
-function StatsCard({ icon, title, value, growth, iconColor }) {
+function StatsCard({ icon, title, value, growth, iconColor, onClick }) {
   const hasGrowth = growth !== undefined && growth !== null;
 
   return (
     <motion.div
       variants={fadeUp}
-      className="bg-white rounded-2xl p-6 shadow hover:shadow-lg transition"
+      onClick={onClick}
+      whileHover={onClick ? { scale: 1.02 } : undefined}
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") onClick();
+            }
+          : undefined
+      }
+      className={`bg-white rounded-2xl p-6 shadow hover:shadow-lg transition ${
+        onClick ? "cursor-pointer" : ""
+      }`}
     >
       <div className="flex justify-between">
         <div

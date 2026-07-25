@@ -13,3 +13,9 @@ export function updateBuyerRequest(id, status) {
     .patch(`/buyer-requests/${id}`, { status })
     .then((res) => res.data);
 }
+
+export function payForRequest(id, data) {
+  return client
+    .patch(`/buyer-requests/${id}/pay`, data)
+    .then((res) => res.data);
+}

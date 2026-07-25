@@ -18,10 +18,28 @@ import {
 import HowItworksCard from "./HowItworksCard";
 import Choose from "./Choose";
 import ReuseIdeas from "./ReuseIdeas";
+import CommunityReuseIdeas from "./CommunityReuseIdeas";
 import { staggerContainer } from "../../lib/motion";
+import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../context/ToastContext";
 
 function Hero() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const { showToast } = useToast();
+
+  function handleAddWasteClick() {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    if (user.role === "farmer") {
+      navigate("/addwaste");
+      return;
+    }
+    showToast("Only farmers can add waste listings.", "error");
+    navigate(user.role === "admin" ? "/admin" : "/buyer");
+  }
 
   return (
     <div>
@@ -56,16 +74,16 @@ function Hero() {
 
           <div className="mt-10 flex justify-center gap-6">
             <button
-              onClick={() => navigate("/register")}
-              className="bg-green-700 hover:bg-green-800 hover:scale-105 cursor-pointer text-white font-semibold py-2 px-4 rounded flex items-center gap-2 transition"
+              onClick={() => navigate("/marketplace")}
+              className="bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-xl hover:scale-105 cursor-pointer text-white font-semibold py-2 px-4 rounded-xl flex items-center gap-2 transition"
             >
               Get Started
               <ArrowRight size={18} />
             </button>
 
             <button
-              onClick={() => navigate("/addwaste")}
-              className="bg-transparent border border-green-600 cursor-pointer text-green-500 font-semibold py-2 px-4 rounded hover:bg-green-700 hover:text-white hover:scale-105 transition"
+              onClick={handleAddWasteClick}
+              className="bg-white/10 backdrop-blur border border-green-400 cursor-pointer text-white font-semibold py-2 px-4 rounded-xl hover:bg-green-700 hover:scale-105 transition"
             >
               Add Waste
             </button>
@@ -237,6 +255,9 @@ function Hero() {
           />
         </motion.div>
       </section>
+
+      <CommunityReuseIdeas />
+
       <div className="bg-green-50 mx-150 my-10 p-4 border border-green-700/40 rounded-xl">
         <p className="text-center text-gray-700 text-md leading-relaxed  ">
           <b>Did you know? </b>Agricultural waste can be transformed into

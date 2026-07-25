@@ -8,6 +8,10 @@ function currency(amount) {
   return `LKR ${Number(amount || 0).toLocaleString()}`;
 }
 
+function scrollToId(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function FarmerStats({ listings, requests }) {
   const activeListings = listings.filter((l) => l.status === "Approved").length;
   const totalRequests = requests.length;
@@ -41,6 +45,7 @@ function FarmerStats({ listings, requests }) {
         value={activeListings}
         icon={<Box />}
         iconColor="bg-blue-500 text-white"
+        onClick={() => scrollToId("my-listings")}
       />
 
       <StatsCard
@@ -48,6 +53,7 @@ function FarmerStats({ listings, requests }) {
         value={totalRequests}
         icon={<Users />}
         iconColor="bg-green-500 text-white"
+        onClick={() => scrollToId("buyer-requests")}
       />
 
       <StatsCard
@@ -55,6 +61,7 @@ function FarmerStats({ listings, requests }) {
         value={currency(totalSales)}
         icon={<DollarSign />}
         iconColor="bg-purple-500 text-white"
+        onClick={() => scrollToId("my-listings")}
       />
 
       <StatsCard
@@ -62,6 +69,7 @@ function FarmerStats({ listings, requests }) {
         value={currency(thisMonthSales)}
         icon={<TrendingUp />}
         iconColor="bg-orange-500 text-white"
+        onClick={() => scrollToId("my-listings")}
       />
     </motion.div>
   );

@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PendingCard from "./PendingCard";
+import PendingReuseIdeaCard from "./PendingReuseIdeaCard";
 import ListingDetailModal from "./ListingDetailModal";
 import { staggerContainer } from "../../lib/motion";
 
 function PendingReviews({
   listings,
   categoryRequests,
+  reuseIdeas = [],
   loading,
   onListingDecision,
   onCategoryRequestDecision,
+  onReuseIdeaDecision,
 }) {
   const [viewingListing, setViewingListing] = useState(null);
 
@@ -65,6 +68,30 @@ function PendingReviews({
                 date={new Date(request.created_at).toLocaleDateString()}
                 onApprove={() => onCategoryRequestDecision(request.id, "Approved")}
                 onReject={() => onCategoryRequestDecision(request.id, "Rejected")}
+              />
+            ))}
+          </motion.div>
+        </>
+      )}
+
+      {reuseIdeas.length > 0 && (
+        <>
+          <h2 className="text-4xl font-bold mb-8 mt-12">
+            Pending Reuse Ideas
+          </h2>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="show"
+            className="space-y-6"
+          >
+            {reuseIdeas.map((idea) => (
+              <PendingReuseIdeaCard
+                key={idea.id}
+                idea={idea}
+                onApprove={(icon) => onReuseIdeaDecision(idea.id, "Approved", icon)}
+                onReject={() => onReuseIdeaDecision(idea.id, "Rejected")}
               />
             ))}
           </motion.div>

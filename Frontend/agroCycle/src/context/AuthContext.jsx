@@ -8,37 +8,22 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("agrocycle_token");
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-
     authApi
       .me()
       .then((data) => setUser(data))
-      .catch(() => {
-        localStorage.removeItem("agrocycle_token");
-        localStorage.removeItem("agrocycle_user");
-      })
+      .catch(() => setUser(null))
       .finally(() => setLoading(false));
   }, []);
 
-  function persist({ user, token }) {
-    localStorage.setItem("agrocycle_token", token);
-    localStorage.setItem("agrocycle_user", JSON.stringify(user));
-    setUser(user);
-  }
-
   async function login(credentials) {
     const data = await authApi.login(credentials);
-    persist(data);
+    setUser(data.user);
     return data.user;
   }
 
   async function register(payload) {
     const data = await authApi.register(payload);
-    persist(data);
+    setUser(data.user);
     return data.user;
   }
 
@@ -48,8 +33,6 @@ export function AuthProvider({ children }) {
     } catch {
       // ignore network errors on logout
     }
-    localStorage.removeItem("agrocycle_token");
-    localStorage.removeItem("agrocycle_user");
     setUser(null);
   }
 

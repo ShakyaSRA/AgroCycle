@@ -11,6 +11,14 @@ class BuyerRequest extends Model
         'buyer_id',
         'message',
         'status',
+        'payment_method',
+        'payment_status',
+        'card_last_four',
+        'paid_at',
+    ];
+
+    protected $casts = [
+        'paid_at' => 'datetime',
     ];
 
     public function listing()

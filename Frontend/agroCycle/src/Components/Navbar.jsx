@@ -24,7 +24,7 @@ function Navbar() {
     user?.role === "admin" ? "/admin" : user?.role === "farmer" ? "/farmer" : "/buyer";
 
   return (
-    <nav className="bg-white shadow-md px-6 md:px-20 h-20 flex items-center justify-between">
+    <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 px-6 md:px-20 h-20 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-3">
         <img src={logo} alt="logo" className="w-14 h-14 object-contain py-0" />
         <h1 className="text-3xl font-bold text-green-700 cursor-pointer">
@@ -36,19 +36,22 @@ function Navbar() {
         <li>
           <Link
             to="/"
-            className="hover:text-green-600 cursor-pointer flex justify-center gap-2 "
+            className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
           >
             <House size={20} />
             Home
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
           </Link>
         </li>
+
         <li>
           <Link
             to="/marketplace"
-            className="hover:text-green-600 cursor-pointer flex justify-center gap-2"
+            className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
           >
             <ShoppingBag size={20} />
             Marketplace
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
           </Link>
         </li>
 
@@ -56,10 +59,11 @@ function Navbar() {
           <li>
             <Link
               to="/addwaste"
-              className="hover:text-green-600 cursor-pointer flex justify-center gap-2"
+              className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
             >
               <CirclePlus size={20} />
               Add Waste
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
@@ -68,7 +72,7 @@ function Navbar() {
           <li>
             <Link
               to={dashboardPath}
-              className="hover:text-green-600 flex items-center gap-2"
+              className="group relative hover:text-green-600 flex items-center gap-2"
             >
               {user.role === "admin" ? (
                 <Shield size={20} />
@@ -76,6 +80,7 @@ function Navbar() {
                 <LayoutDashboard size={20} />
               )}
               Dashboard
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
@@ -84,10 +89,11 @@ function Navbar() {
           <li>
             <Link
               to="/messages"
-              className="hover:text-green-600 flex items-center gap-2"
+              className="group relative hover:text-green-600 flex items-center gap-2"
             >
               <MessageSquare size={20} />
               Messages
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
@@ -115,7 +121,7 @@ function Navbar() {
             </Link>
             <Link
               to="/register"
-              className="bg-green-600 text-white px-5 py-2 rounded-xl cursor-pointer hover:bg-green-700 hover:scale-105 transition duration-300"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-5 py-2 rounded-xl cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300"
             >
               Register
             </Link>

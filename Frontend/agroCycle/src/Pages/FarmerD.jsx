@@ -66,17 +66,21 @@ function FarmerD() {
 
           <FarmerStats listings={listings} requests={requests} />
 
-          <MyListings
-            listings={listings}
-            loading={loading}
-            onDelete={handleDeleteListing}
-          />
+          <div id="my-listings">
+            <MyListings
+              listings={listings}
+              loading={loading}
+              onDelete={handleDeleteListing}
+            />
+          </div>
 
-          <BuyerRequests
-            requests={requests}
-            loading={loading}
-            onDecision={handleRequestDecision}
-          />
+          <div id="buyer-requests">
+            <BuyerRequests
+              requests={requests}
+              loading={loading}
+              onDecision={handleRequestDecision}
+            />
+          </div>
         </div>
       </div>
 

@@ -9,7 +9,7 @@ import { MapPin, Phone, Mail } from "lucide-react";
 
 function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-10 px-3">
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white py-10 px-3 border-t-4 border-green-600">
       <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
         <div className="max-w-sm">
           <div className="flex items-center gap-3">

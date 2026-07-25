@@ -19,10 +19,10 @@ function SearchFilterBar({
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto mt-8">
-      <div className="bg-white rounded-3xl shadow-md p-6">
+    <div className="max-w-7xl mx-auto -mt-10 relative z-10 px-4">
+      <div className="bg-white rounded-3xl shadow-xl p-6">
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex items-center border border-gray-300 rounded-2xl px-4 py-4">
+          <div className="flex items-center border border-gray-300 rounded-2xl px-4 py-4 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition">
             <Search className="text-gray-400" size={20} />
 
             <input
@@ -34,7 +34,7 @@ function SearchFilterBar({
             />
           </div>
 
-          <div className="flex items-center border border-gray-300 rounded-2xl px-4 py-4">
+          <div className="flex items-center border border-gray-300 rounded-2xl px-4 py-4 focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 transition">
             <Boxes className="text-gray-400" size={20} />
 
             <select

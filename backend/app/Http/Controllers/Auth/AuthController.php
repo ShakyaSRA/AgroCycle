@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -19,6 +20,7 @@ class AuthController extends Controller
             'role' => 'required|in:farmer,buyer',
             'phone' => 'nullable|string|max:30',
             'location' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:1000',
         ]);
 
         $user = User::create([
@@ -28,13 +30,14 @@ class AuthController extends Controller
             'role' => $data['role'],
             'phone' => $data['phone'] ?? null,
             'location' => $data['location'] ?? null,
+            'description' => $data['description'] ?? null,
         ]);
 
-        $token = $user->createToken('auth')->plainTextToken;
+        Auth::login($user);
+        $request->session()->regenerate();
 
         return response()->json([
             'user' => $user,
-            'token' => $token,
         ], 201);
     }
 
@@ -59,17 +62,19 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('auth')->plainTextToken;
+        Auth::login($user);
+        $request->session()->regenerate();
 
         return response()->json([
             'user' => $user,
-            'token' => $token,
         ]);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json(['message' => 'Logged out']);
     }

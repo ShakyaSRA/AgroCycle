@@ -1,10 +1,12 @@
-import client from "./client";
+import client, { ensureCsrfCookie } from "./client";
 
-export function register(data) {
+export async function register(data) {
+  await ensureCsrfCookie();
   return client.post("/register", data).then((res) => res.data);
 }
 
-export function login(data) {
+export async function login(data) {
+  await ensureCsrfCookie();
   return client.post("/login", data).then((res) => res.data);
 }
 

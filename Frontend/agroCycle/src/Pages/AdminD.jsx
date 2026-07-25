@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 
@@ -15,12 +16,19 @@ import { useToast } from "../context/ToastContext";
 import { getStats, getUsers, toggleUserStatus, deleteUser } from "../api/admin";
 import { getListings, updateListingStatus } from "../api/listings";
 import { getCategoryRequests, updateCategoryRequest } from "../api/categories";
+import { getAdminReuseIdeas, updateReuseIdea } from "../api/reuseIdeas";
+
+function scrollToId(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 function AdminD() {
   const { showToast } = useToast();
+  const navigate = useNavigate();
   const [stats, setStats] = useState(null);
   const [pendingListings, setPendingListings] = useState([]);
   const [pendingCategoryRequests, setPendingCategoryRequests] = useState([]);
+  const [pendingReuseIdeas, setPendingReuseIdeas] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,14 +39,16 @@ function AdminD() {
       getListings({ status: "Pending" }),
       getCategoryRequests(),
       getUsers(),
+      getAdminReuseIdeas(),
     ])
-      .then(([statsData, listingsData, categoryRequestsData, usersData]) => {
+      .then(([statsData, listingsData, categoryRequestsData, usersData, reuseIdeasData]) => {
         setStats(statsData);
         setPendingListings(listingsData);
         setPendingCategoryRequests(
           categoryRequestsData.filter((r) => r.status === "Pending")
         );
         setUsers(usersData);
+        setPendingReuseIdeas(reuseIdeasData);
       })
       .catch(() => showToast("Could not load admin dashboard data.", "error"))
       .finally(() => setLoading(false));
@@ -66,6 +76,16 @@ function AdminD() {
       loadData();
     } catch {
       showToast("Could not update category request.", "error");
+    }
+  }
+
+  async function handleReuseIdeaDecision(id, status, icon) {
+    try {
+      await updateReuseIdea(id, { status, ...(icon ? { icon } : {}) });
+      showToast(`Reuse idea ${status.toLowerCase()}.`);
+      loadData();
+    } catch {
+      showToast("Could not update reuse idea.", "error");
     }
   }
 
@@ -113,6 +133,7 @@ function AdminD() {
               growth={stats?.user_growth_percent}
               icon={<Users />}
               iconColor="bg-blue-500 text-white"
+              onClick={() => scrollToId("user-management")}
             />
 
             <StatsCard
@@ -120,6 +141,7 @@ function AdminD() {
               value={stats ? stats.active_listings : "-"}
               icon={<Box />}
               iconColor="bg-green-500 text-white"
+              onClick={() => navigate("/marketplace")}
             />
 
             <StatsCard
@@ -128,6 +150,7 @@ function AdminD() {
               growth={stats?.revenue_growth_percent}
               icon={<DollarSign />}
               iconColor="bg-purple-500 text-white"
+              onClick={() => scrollToId("revenue-chart")}
             />
 
             <StatsCard
@@ -135,28 +158,37 @@ function AdminD() {
               value={stats ? stats.pending_reviews : "-"}
               icon={<AlertTriangle />}
               iconColor="bg-orange-500 text-white"
+              onClick={() => scrollToId("pending-reviews")}
             />
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 mt-10">
             <UserGrowthChart data={stats?.user_growth_series} />
-            <RevenueChart data={stats?.revenue_series} />
+            <div id="revenue-chart">
+              <RevenueChart data={stats?.revenue_series} />
+            </div>
           </div>
 
-          <PendingReviews
-            listings={pendingListings}
-            categoryRequests={pendingCategoryRequests}
-            loading={loading}
-            onListingDecision={handleListingDecision}
-            onCategoryRequestDecision={handleCategoryRequestDecision}
-          />
+          <div id="pending-reviews">
+            <PendingReviews
+              listings={pendingListings}
+              categoryRequests={pendingCategoryRequests}
+              reuseIdeas={pendingReuseIdeas}
+              loading={loading}
+              onListingDecision={handleListingDecision}
+              onCategoryRequestDecision={handleCategoryRequestDecision}
+              onReuseIdeaDecision={handleReuseIdeaDecision}
+            />
+          </div>
 
-          <UserManagement
-            users={users}
-            loading={loading}
-            onToggleStatus={handleToggleStatus}
-            onDelete={handleDeleteUser}
-          />
+          <div id="user-management">
+            <UserManagement
+              users={users}
+              loading={loading}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDeleteUser}
+            />
+          </div>
         </div>
       </div>
 

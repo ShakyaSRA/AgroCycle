@@ -4,22 +4,18 @@ export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 const client = axios.create({
   baseURL: `${API_URL}/api`,
+  withCredentials: true,
+  withXSRFToken: true,
 });
 
-client.interceptors.request.use((config) => {
-  const token = localStorage.getItem("agrocycle_token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export function ensureCsrfCookie() {
+  return axios.get(`${API_URL}/sanctum/csrf-cookie`, { withCredentials: true });
+}
 
 client.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("agrocycle_token");
-      localStorage.removeItem("agrocycle_user");
       if (!window.location.pathname.startsWith("/login")) {
         window.location.href = "/login";
       }

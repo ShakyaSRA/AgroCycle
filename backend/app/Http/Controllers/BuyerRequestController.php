@@ -70,4 +70,40 @@ class BuyerRequestController extends Controller
 
         return $buyerRequest->fresh(['listing.category', 'buyer']);
     }
+
+    public function pay(Request $request, BuyerRequest $buyerRequest)
+    {
+        $user = $request->user();
+
+        if ($buyerRequest->buyer_id !== $user->id) {
+            abort(403);
+        }
+
+        if ($buyerRequest->status !== 'Accepted') {
+            return response()->json(['message' => 'This request must be accepted before payment.'], 422);
+        }
+
+        $data = $request->validate([
+            'payment_method' => 'required|in:card,cod',
+            'card_number' => 'required_if:payment_method,card|digits_between:13,19',
+            'card_name' => 'required_if:payment_method,card|string|max:255',
+            'card_expiry' => ['required_if:payment_method,card', 'regex:/^(0[1-9]|1[0-2])\/[0-9]{2}$/'],
+            'cvv' => 'required_if:payment_method,card|digits_between:3,4',
+        ]);
+
+        if ($data['payment_method'] === 'card') {
+            $buyerRequest->update([
+                'payment_method' => 'card',
+                'payment_status' => 'Paid',
+                'card_last_four' => substr($data['card_number'], -4),
+                'paid_at' => now(),
+            ]);
+        } else {
+            $buyerRequest->update([
+                'payment_method' => 'cod',
+            ]);
+        }
+
+        return $buyerRequest->fresh(['listing.category', 'buyer']);
+    }
 }
