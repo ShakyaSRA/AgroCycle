@@ -21,37 +21,35 @@ function Navbar() {
   }
 
   const dashboardPath =
-    user?.role === "admin" ? "/admin" : user?.role === "farmer" ? "/farmer" : "/buyer";
+    user?.role === "admin" ? "/admin/stats" : user?.role === "farmer" ? "/farmer" : "/buyer";
 
   return (
-    <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 px-6 md:px-20 h-20 flex items-center justify-between">
-      <Link to="/" className="flex items-center gap-3">
-        <img src={logo} alt="logo" className="w-14 h-14 object-contain py-0" />
-        <h1 className="text-3xl font-bold text-green-700 cursor-pointer">
+    <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 px-6 md:px-20 h-16 flex items-center justify-between">
+      <Link to="/" className="flex items-center gap-2.5">
+        <img src={logo} alt="logo" className="w-9 h-9 object-contain" />
+        <h1 className="text-lg font-semibold text-gray-900 cursor-pointer tracking-tight">
           AgroCycle
         </h1>
       </Link>
 
-      <ul className="hidden md:flex items-center gap-8 text-gray-700 font-medium ">
+      <ul className="hidden md:flex items-center gap-1 text-sm text-gray-600 font-medium">
         <li>
           <Link
             to="/"
-            className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
           >
-            <House size={20} />
+            <House size={16} />
             Home
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
           </Link>
         </li>
 
         <li>
           <Link
             to="/marketplace"
-            className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
           >
-            <ShoppingBag size={20} />
+            <ShoppingBag size={16} />
             Marketplace
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
           </Link>
         </li>
 
@@ -59,11 +57,10 @@ function Navbar() {
           <li>
             <Link
               to="/addwaste"
-              className="group relative hover:text-green-600 cursor-pointer flex justify-center gap-2"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
             >
-              <CirclePlus size={20} />
+              <CirclePlus size={16} />
               Add Waste
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
@@ -72,15 +69,14 @@ function Navbar() {
           <li>
             <Link
               to={dashboardPath}
-              className="group relative hover:text-green-600 flex items-center gap-2"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
             >
               {user.role === "admin" ? (
-                <Shield size={20} />
+                <Shield size={16} />
               ) : (
-                <LayoutDashboard size={20} />
+                <LayoutDashboard size={16} />
               )}
               Dashboard
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
@@ -89,25 +85,24 @@ function Navbar() {
           <li>
             <Link
               to="/messages"
-              className="group relative hover:text-green-600 flex items-center gap-2"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition-colors"
             >
-              <MessageSquare size={20} />
+              <MessageSquare size={16} />
               Messages
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full" />
             </Link>
           </li>
         )}
       </ul>
 
-      <div className="hidden md:flex items-center gap-4 font-semibold">
+      <div className="hidden md:flex items-center gap-3 text-sm">
         {user ? (
           <>
-            <span className="text-gray-600">Hi, {user.name.split(" ")[0]}</span>
+            <span className="text-gray-500">Hi, {user.name.split(" ")[0]}</span>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 text-red-600 hover:text-red-700 cursor-pointer transition duration-300"
+              className="flex items-center gap-1.5 text-gray-500 hover:text-red-600 cursor-pointer transition-colors font-medium"
             >
-              <LogOut size={18} />
+              <LogOut size={16} />
               Logout
             </button>
           </>
@@ -115,13 +110,13 @@ function Navbar() {
           <>
             <Link
               to="/login"
-              className="text-green-600 cursor-pointer hover:text-green-700 hover:scale-105 transition duration-300"
+              className="text-gray-600 cursor-pointer hover:text-gray-900 transition-colors font-medium px-3 py-2"
             >
               Login
             </Link>
             <Link
               to="/register"
-              className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-5 py-2 rounded-xl cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300"
+              className="bg-green-600 text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-green-700 transition-colors font-medium"
             >
               Register
             </Link>

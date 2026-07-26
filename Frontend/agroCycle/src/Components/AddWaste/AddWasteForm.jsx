@@ -119,32 +119,32 @@ function AddWasteForm() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="max-w-4xl mx-auto"
+      className="max-w-3xl mx-auto"
     >
-      <h1 className="text-5xl font-bold">
+      <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
         {editId ? "Edit Waste Listing" : "Add Waste Listing"}
       </h1>
 
-      <p className="text-gray-600 mt-3">
+      <p className="text-sm text-gray-500 mt-1">
         Post your agricultural waste to connect with buyers and recyclers
       </p>
 
-      <div className="bg-white rounded-3xl shadow-lg p-8 mt-10 space-y-8">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6 space-y-6">
         {/* Waste Type */}
         <div>
-          <label className="font-semibold">
+          <label className="text-sm font-medium text-gray-700">
             Waste Type <span className="text-red-500">*</span>
           </label>
 
-          <div className="flex items-center border rounded-xl mt-3 px-4 py-3">
-            <Box className="text-gray-400" size={20} />
+          <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+            <Box className="text-gray-400" size={17} />
 
             <select
               name="category_id"
               required
               value={form.category_id}
               onChange={handleChange}
-              className="ml-3 w-full outline-none bg-transparent"
+              className="ml-2.5 w-full outline-none bg-transparent text-sm"
             >
               <option value="">Select waste type</option>
               {categories.map((c) => (
@@ -157,14 +157,14 @@ function AddWasteForm() {
         </div>
 
         {/* Quantity + Unit */}
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-5">
           <div>
-            <label className="font-semibold">
+            <label className="text-sm font-medium text-gray-700">
               Quantity <span className="text-red-500">*</span>
             </label>
 
-            <div className="flex items-center border rounded-xl mt-3 px-4 py-3">
-              <Hash className="text-gray-400" size={20} />
+            <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+              <Hash className="text-gray-400" size={17} />
               <input
                 type="number"
                 name="quantity"
@@ -174,20 +174,20 @@ function AddWasteForm() {
                 value={form.quantity}
                 onChange={handleChange}
                 placeholder="e.g. 500"
-                className="ml-3 w-full outline-none"
+                className="ml-2.5 w-full outline-none text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="font-semibold">Unit</label>
+            <label className="text-sm font-medium text-gray-700">Unit</label>
 
-            <div className="flex items-center border rounded-xl mt-3 px-4 py-3">
+            <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
               <select
                 name="unit"
                 value={form.unit}
                 onChange={handleChange}
-                className="w-full outline-none bg-transparent"
+                className="w-full outline-none bg-transparent text-sm"
               >
                 <option value="kg">kg</option>
                 <option value="ton">ton</option>
@@ -199,10 +199,10 @@ function AddWasteForm() {
 
         {/* Price */}
         <div>
-          <label className="font-semibold">Price (LKR, optional)</label>
+          <label className="text-sm font-medium text-gray-700">Price (LKR, optional)</label>
 
-          <div className="flex items-center border rounded-xl mt-3 px-4 py-3">
-            <DollarSign className="text-gray-400" size={20} />
+          <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+            <DollarSign className="text-gray-400" size={17} />
             <input
               type="number"
               name="price"
@@ -211,19 +211,19 @@ function AddWasteForm() {
               value={form.price}
               onChange={handleChange}
               placeholder="Leave blank if free / negotiable"
-              className="ml-3 w-full outline-none"
+              className="ml-2.5 w-full outline-none text-sm"
             />
           </div>
         </div>
 
         {/* Location */}
         <div>
-          <label className="font-semibold">
+          <label className="text-sm font-medium text-gray-700">
             Location <span className="text-red-500">*</span>
           </label>
 
-          <div className="flex items-center border rounded-xl mt-3 px-4 py-3">
-            <MapPin className="text-gray-400" size={20} />
+          <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+            <MapPin className="text-gray-400" size={17} />
             <input
               type="text"
               name="location"
@@ -231,17 +231,17 @@ function AddWasteForm() {
               value={form.location}
               onChange={handleChange}
               placeholder="e.g. Kandy, Sri Lanka"
-              className="ml-3 w-full outline-none"
+              className="ml-2.5 w-full outline-none text-sm"
             />
           </div>
         </div>
 
         {/* Description */}
         <div>
-          <label className="font-semibold">Description</label>
+          <label className="text-sm font-medium text-gray-700">Description</label>
 
-          <div className="flex border rounded-xl mt-3 px-4 py-3">
-            <FileText className="text-gray-400 mt-1" size={20} />
+          <div className="flex border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+            <FileText className="text-gray-400 mt-1" size={17} />
             <textarea
               rows={5}
               name="description"
@@ -249,19 +249,19 @@ function AddWasteForm() {
               value={form.description}
               onChange={handleChange}
               placeholder="Provide details about the waste condition, quality and any relevant information..."
-              className="ml-3 w-full outline-none resize-none"
+              className="ml-2.5 w-full outline-none resize-none text-sm"
             />
           </div>
         </div>
 
         {/* Upload */}
         <div>
-          <label className="font-semibold">Upload Images</label>
+          <label className="text-sm font-medium text-gray-700">Upload Images</label>
 
-          <label className="mt-3 border-2 border-dashed rounded-2xl h-56 flex flex-col justify-center items-center text-gray-500 hover:border-green-500 transition cursor-pointer">
-            <Upload size={44} />
-            <p className="mt-4 text-lg">Click to upload or drag & drop</p>
-            <p className="text-sm">PNG, JPG, JPEG up to 5MB</p>
+          <label className="mt-2 border-2 border-dashed border-gray-300 rounded-xl h-44 flex flex-col justify-center items-center text-gray-500 hover:border-green-500 hover:bg-green-50/30 transition-colors cursor-pointer">
+            <Upload size={32} className="text-gray-400" />
+            <p className="mt-3 text-sm font-medium text-gray-600">Click to upload or drag & drop</p>
+            <p className="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 5MB</p>
             <input
               type="file"
               multiple
@@ -272,7 +272,7 @@ function AddWasteForm() {
           </label>
 
           {(existingImages.length > 0 || images.length > 0) && (
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="flex flex-wrap gap-2.5 mt-4">
               {existingImages.map((img) => (
                 <img
                   key={img.id}
@@ -302,21 +302,21 @@ function AddWasteForm() {
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-3">
           <button
             type="button"
             onClick={() => navigate("/farmer")}
-            className="px-8 py-3 border rounded-xl hover:bg-gray-100"
+            className="px-5 py-2.5 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
           >
             Cancel
           </button>
 
           <motion.button
-            whileHover={{ scale: submitting ? 1 : 1.03 }}
-            whileTap={{ scale: submitting ? 1 : 0.97 }}
+            whileHover={{ scale: submitting ? 1 : 1.02 }}
+            whileTap={{ scale: submitting ? 1 : 0.98 }}
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 disabled:opacity-60"
+            className="px-5 py-2.5 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-60 transition-colors"
           >
             {submitting
               ? "Saving..."

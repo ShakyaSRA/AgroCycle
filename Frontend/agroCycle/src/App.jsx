@@ -1,13 +1,18 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Home from "./Pages/Home";
 import Marketplace from "./Pages/Marketplace";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import AdminD from "./Pages/AdminD";
-import FarmerD from "./Pages/FarmerD";
-import BuyerD from "./Pages/BuyerD";
+import AdminStats from "./Pages/Admin/AdminStats";
+import AdminRequests from "./Pages/Admin/AdminRequests";
+import AdminUsers from "./Pages/Admin/AdminUsers";
+import FarmerOverview from "./Pages/Farmer/FarmerOverview";
+import FarmerListings from "./Pages/Farmer/FarmerListings";
+import FarmerRequests from "./Pages/Farmer/FarmerRequests";
+import BuyerOverview from "./Pages/Buyer/BuyerOverview";
+import BuyerRequestsPage from "./Pages/Buyer/BuyerRequestsPage";
 import AddWaste from "./Pages/AddWaste";
 import Messages from "./Pages/Messages";
 import ProtectedRoute from "./Components/ProtectedRoute";
@@ -36,11 +41,28 @@ function AnimatedRoutes() {
         <Route path="/marketplace" element={<Page><Marketplace /></Page>} />
         <Route path="/login" element={<Page><Login /></Page>} />
         <Route path="/register" element={<Page><Register /></Page>} />
+        <Route path="/admin" element={<Navigate to="/admin/stats" replace />} />
         <Route
-          path="/admin"
+          path="/admin/stats"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              <Page><AdminD /></Page>
+              <Page><AdminStats /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/requests"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <Page><AdminRequests /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <Page><AdminUsers /></Page>
             </ProtectedRoute>
           }
         />
@@ -48,7 +70,23 @@ function AnimatedRoutes() {
           path="/farmer"
           element={
             <ProtectedRoute allowedRoles={["farmer"]}>
-              <Page><FarmerD /></Page>
+              <Page><FarmerOverview /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/farmer/listings"
+          element={
+            <ProtectedRoute allowedRoles={["farmer"]}>
+              <Page><FarmerListings /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/farmer/requests"
+          element={
+            <ProtectedRoute allowedRoles={["farmer"]}>
+              <Page><FarmerRequests /></Page>
             </ProtectedRoute>
           }
         />
@@ -56,7 +94,15 @@ function AnimatedRoutes() {
           path="/buyer"
           element={
             <ProtectedRoute allowedRoles={["buyer"]}>
-              <Page><BuyerD /></Page>
+              <Page><BuyerOverview /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/buyer/requests"
+          element={
+            <ProtectedRoute allowedRoles={["buyer"]}>
+              <Page><BuyerRequestsPage /></Page>
             </ProtectedRoute>
           }
         />

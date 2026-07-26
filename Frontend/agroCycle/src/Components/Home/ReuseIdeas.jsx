@@ -4,30 +4,30 @@ import { fadeUp } from "../../lib/motion";
 function ReuseIdeas({ icon, title, item1, item2, item3, item4 }) {
   return (
     <motion.div variants={fadeUp}>
-      <div className="bg-green-50/40 border border-none shadow-md p-6 rounded-2xl w-full max-w-sm m-4 hover:shadow-xl transition duration-300">
-        <div className="w-24 h-24 bg-green-100/50 rounded-full flex items-center justify-center mx-auto text-green-600 hover:bg-green-200 transition duration-300">
+      <div className="bg-white border border-gray-200 shadow-sm p-6 rounded-2xl w-full max-w-sm hover:shadow-md transition-shadow duration-300">
+        <div className="w-11 h-11 bg-green-50 rounded-xl flex items-center justify-center text-green-600 [&>svg]:w-5 [&>svg]:h-5">
           {icon}
         </div>
 
-        <h3 className="text-2xl font-bold text-gray-900 mt-8 hover:text-green-700 transition duration-300">
+        <h3 className="text-lg font-semibold text-gray-900 mt-5">
           {title}
         </h3>
 
-        <ul className="mt-6 space-y-3 text-gray-700 w-70 ">
-          <li className="bg-white border border-1 border-green-500/30 rounded-xl shadow-sm p-2 flex items-center gap-3">
-            <div class="h-2 w-2 bg-green-500 rounded-full "></div>
+        <ul className="mt-4 space-y-2 text-sm text-gray-600">
+          <li className="bg-gray-50 rounded-lg p-2.5 flex items-center gap-2.5">
+            <div className="h-1.5 w-1.5 bg-green-500 rounded-full shrink-0" />
             {item1}
           </li>
-          <li className="bg-white border border-1 border-green-500/30 rounded-xl shadow-sm p-2 flex items-center gap-3">
-            <div class="h-2 w-2 bg-green-500 rounded-full "></div>
+          <li className="bg-gray-50 rounded-lg p-2.5 flex items-center gap-2.5">
+            <div className="h-1.5 w-1.5 bg-green-500 rounded-full shrink-0" />
             {item2}
           </li>
-          <li className="bg-white border border-1 border-green-500/30 rounded-xl shadow-sm p-2 flex items-center gap-3">
-            <div class="h-2 w-2 bg-green-500 rounded-full"></div>
+          <li className="bg-gray-50 rounded-lg p-2.5 flex items-center gap-2.5">
+            <div className="h-1.5 w-1.5 bg-green-500 rounded-full shrink-0" />
             {item3}
           </li>
-          <li className="bg-white border border-1 border-green-500/30 rounded-xl shadow-sm p-2 flex items-center gap-3">
-            <div class="h-2 w-2 bg-green-500 rounded-full "></div>
+          <li className="bg-gray-50 rounded-lg p-2.5 flex items-center gap-2.5">
+            <div className="h-1.5 w-1.5 bg-green-500 rounded-full shrink-0" />
             {item4}
           </li>
         </ul>

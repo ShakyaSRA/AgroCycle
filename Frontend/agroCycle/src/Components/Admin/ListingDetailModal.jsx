@@ -21,17 +21,17 @@ function ListingDetailModal({ listing, onClose }) {
         animate="show"
         exit="exit"
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 max-h-[85vh] overflow-y-auto"
+        className="bg-white rounded-2xl border border-gray-200 shadow-lg max-w-lg w-full p-6 max-h-[85vh] overflow-y-auto"
       >
         <div className="flex justify-between items-start">
-          <h3 className="text-2xl font-bold">{listing.category?.name}</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{listing.category?.name}</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-700">
-            <X size={22} />
+            <X size={20} />
           </button>
         </div>
 
         {listing.images?.length > 0 && (
-          <div className="flex gap-3 mt-4 overflow-x-auto">
+          <div className="flex gap-2.5 mt-4 overflow-x-auto">
             {listing.images.map((img) => (
               <img
                 key={img.id}
@@ -43,9 +43,9 @@ function ListingDetailModal({ listing, onClose }) {
           </div>
         )}
 
-        <p className="text-gray-600 mt-4">{listing.description}</p>
+        <p className="text-gray-500 text-sm mt-4 leading-relaxed">{listing.description}</p>
 
-        <div className="mt-4 space-y-2 text-gray-700">
+        <div className="mt-4 space-y-2 text-sm text-gray-600">
           <div className="flex items-center gap-2">
             <Package size={16} className="text-gray-400" />
             {listing.quantity} {listing.unit} — {priceLabel}

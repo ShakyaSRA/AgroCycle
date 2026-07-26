@@ -7,24 +7,24 @@ function MyListings({ listings, loading, onDelete }) {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white rounded-2xl shadow p-8 mt-10">
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold">My Listings</h2>
+        <h2 className="text-lg font-semibold text-gray-900">My Listings</h2>
 
         <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={() => navigate("/addwaste")}
-          className="bg-green-600 text-white px-5 py-2 rounded-xl"
+          className="bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
         >
           + Add New
         </motion.button>
       </div>
 
       {loading ? (
-        <p className="text-gray-500 mt-8">Loading listings...</p>
+        <p className="text-gray-500 text-sm mt-6">Loading listings...</p>
       ) : listings.length === 0 ? (
-        <p className="text-gray-500 mt-8">
+        <p className="text-gray-500 text-sm mt-6">
           You haven't posted any listings yet.
         </p>
       ) : (

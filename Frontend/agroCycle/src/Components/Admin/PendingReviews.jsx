@@ -17,8 +17,8 @@ function PendingReviews({
   const [viewingListing, setViewingListing] = useState(null);
 
   return (
-    <div className="bg-white rounded-2xl shadow p-6 mt-10">
-      <h2 className="text-4xl font-bold mb-8">Pending Listings for Review</h2>
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6">
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">Pending Listings for Review</h2>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
@@ -49,7 +49,7 @@ function PendingReviews({
 
       {categoryRequests.length > 0 && (
         <>
-          <h2 className="text-4xl font-bold mb-8 mt-12">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6 mt-10">
             Pending Category Requests
           </h2>
 
@@ -76,7 +76,7 @@ function PendingReviews({
 
       {reuseIdeas.length > 0 && (
         <>
-          <h2 className="text-4xl font-bold mb-8 mt-12">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6 mt-10">
             Pending Reuse Ideas
           </h2>
 

@@ -7,52 +7,52 @@ function PendingCard({ title, details, user, date, flagged, onApprove, onReject,
     <motion.div
       variants={fadeUp}
       layout
-      className={`rounded-2xl border p-5 ${
-        flagged ? "border-red-300 bg-red-50" : "border-gray-200"
+      className={`rounded-xl border p-5 ${
+        flagged ? "border-red-200 bg-red-50" : "border-gray-200"
       }`}
     >
       <div className="flex justify-between">
         <div>
-          <div className="flex items-center gap-3">
-            <h3 className="text-2xl font-semibold">{title}</h3>
+          <div className="flex items-center gap-2.5">
+            <h3 className="text-base font-semibold text-gray-900">{title}</h3>
 
             {flagged && (
-              <span className="bg-red-100 text-red-600 px-3 py-1 rounded">
+              <span className="bg-red-100 text-red-600 px-2 py-0.5 rounded text-xs font-medium">
                 Flagged
               </span>
             )}
           </div>
 
-          <p className="text-gray-500 mt-2">{details}</p>
-          <p className="mt-2 text-gray-700">Posted by: {user}</p>
+          <p className="text-gray-500 text-sm mt-1.5">{details}</p>
+          <p className="mt-1.5 text-sm text-gray-600">Posted by: {user}</p>
         </div>
 
-        <p className="text-gray-500">{date}</p>
+        <p className="text-gray-400 text-xs">{date}</p>
       </div>
 
-      <div className="flex gap-3 mt-6">
+      <div className="flex gap-2.5 mt-5">
         <button
           onClick={onApprove}
-          className="flex-1 bg-green-600 text-white py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-green-700"
+          className="flex-1 bg-green-600 text-white text-sm font-medium py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-green-700 transition-colors"
         >
-          <Check size={18} />
+          <Check size={16} />
           Approve
         </button>
 
         <button
           onClick={onReject}
-          className="flex-1 bg-red-600 text-white py-3 rounded-xl flex justify-center items-center gap-2 hover:bg-red-700"
+          className="flex-1 bg-red-600 text-white text-sm font-medium py-2 rounded-lg flex justify-center items-center gap-2 hover:bg-red-700 transition-colors"
         >
-          <X size={18} />
+          <X size={16} />
           Reject
         </button>
 
         {onView && (
           <button
             onClick={onView}
-            className="px-4 border rounded-xl hover:bg-gray-50"
+            className="px-3.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <Eye />
+            <Eye size={17} />
           </button>
         )}
       </div>

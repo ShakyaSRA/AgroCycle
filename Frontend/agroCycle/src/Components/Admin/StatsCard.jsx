@@ -18,20 +18,20 @@ function StatsCard({ icon, title, value, growth, iconColor, onClick }) {
             }
           : undefined
       }
-      className={`bg-white rounded-2xl p-6 shadow hover:shadow-lg transition ${
+      className={`bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md hover:border-gray-300 transition ${
         onClick ? "cursor-pointer" : ""
       }`}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between items-start">
         <div
-          className={`w-14 h-14 rounded-xl flex items-center justify-center ${iconColor}`}
+          className={`w-11 h-11 rounded-xl flex items-center justify-center [&>svg]:w-5 [&>svg]:h-5 ${iconColor}`}
         >
           {icon}
         </div>
 
         {hasGrowth && (
           <span
-            className={`font-semibold ${
+            className={`text-sm font-semibold ${
               growth >= 0 ? "text-green-600" : "text-red-500"
             }`}
           >
@@ -41,8 +41,8 @@ function StatsCard({ icon, title, value, growth, iconColor, onClick }) {
         )}
       </div>
 
-      <p className="text-gray-500 mt-6">{title}</p>
-      <h2 className="text-4xl font-bold">{value}</h2>
+      <p className="text-gray-500 text-sm mt-5">{title}</p>
+      <h2 className="text-3xl font-semibold text-gray-900 mt-1">{value}</h2>
     </motion.div>
   );
 }

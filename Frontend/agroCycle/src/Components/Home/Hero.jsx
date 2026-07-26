@@ -43,7 +43,7 @@ function Hero() {
 
   return (
     <div>
-      <section className="relative h-screen flex flex-col items-center justify-start pt-40 overflow-hidden">
+      <section className="relative h-[85vh] min-h-[560px] flex flex-col items-center justify-center overflow-hidden">
         <video
           autoPlay
           loop
@@ -54,36 +54,38 @@ function Hero() {
           <source src={bgVideo} type="video/mp4" />
         </video>
 
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
-        <div className="relative z-10 text-center max-w-2xl mx-auto pt-0">
+        <div className="relative z-10 text-center max-w-2xl mx-auto px-6">
           <img
             src={logo}
             alt="logo"
-            className="w-24 h-24 object-contain mx-auto"
+            className="w-16 h-16 object-contain mx-auto"
           />
-          <h1 className="text-7xl font-bold text-white mt-4">AgroCycle</h1>
-          <p className="text-gray-300 mt-4 font-medium text-2xl tracking-widest">
+          <h1 className="text-4xl md:text-6xl font-semibold text-white mt-6 tracking-tight">
+            AgroCycle
+          </h1>
+          <p className="text-gray-200 mt-3 font-medium text-lg">
             Turning Agricultural Waste into Value
           </p>
-          <div className="text-gray-200 mt-8 font-light text-xl tracking-wider">
+          <p className="text-gray-300 mt-5 text-base leading-relaxed max-w-lg mx-auto">
             Connect with buyers, recyclers, and eco-friendly product makers.
             Transform your agricultural waste into income while protecting the
             environment.
-          </div>
+          </p>
 
-          <div className="mt-10 flex justify-center gap-6">
+          <div className="mt-9 flex justify-center gap-3">
             <button
               onClick={() => navigate("/marketplace")}
-              className="bg-gradient-to-r from-green-600 to-emerald-700 hover:shadow-xl hover:scale-105 cursor-pointer text-white font-semibold py-2 px-4 rounded-xl flex items-center gap-2 transition"
+              className="bg-green-600 hover:bg-green-700 cursor-pointer text-white text-sm font-medium py-2.5 px-5 rounded-lg flex items-center gap-2 transition-colors"
             >
               Get Started
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </button>
 
             <button
               onClick={handleAddWasteClick}
-              className="bg-white/10 backdrop-blur border border-green-400 cursor-pointer text-white font-semibold py-2 px-4 rounded-xl hover:bg-green-700 hover:scale-105 transition"
+              className="bg-white/10 backdrop-blur border border-white/20 cursor-pointer text-white text-sm font-medium py-2.5 px-5 rounded-lg hover:bg-white/20 transition-colors"
             >
               Add Waste
             </button>
@@ -91,9 +93,9 @@ function Hero() {
         </div>
       </section>
 
-      <section className="bg-white py-20 px-6">
+      <section className="bg-white py-24 px-6">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">How It Works</h2>
         </div>
 
         <motion.div
@@ -101,7 +103,7 @@ function Hero() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14"
+          className="max-w-6xl mx-auto mt-16 grid md:grid-cols-3 gap-8"
         >
           <HowItworksCard
             icon={<Sprout size={40} />}
@@ -126,9 +128,9 @@ function Hero() {
         </motion.div>
       </section>
 
-      <section className="bg-green-50 py-20 px-6">
+      <section className="bg-gray-50 py-24 px-6 border-y border-gray-100">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Why Choose AgroCycle?
           </h2>
         </div>
@@ -138,7 +140,7 @@ function Hero() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
-          className="max-w-6xl mx-auto mt-20 grid md:grid-cols-3 gap-14"
+          className="max-w-6xl mx-auto mt-16 grid md:grid-cols-3 gap-8"
         >
           <Choose
             icon={<Leaf size={40} />}
@@ -159,37 +161,37 @@ function Hero() {
           />
         </motion.div>
       </section>
-      <section className="py-20 px-6 bg-white">
-        <div className="bg-green-700 shadow-xl rounded-2xl p-10 max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+      <section className="py-24 px-6 bg-white">
+        <div className="bg-green-700 rounded-2xl p-12 max-w-6xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
             Ready To Get Started?
           </h2>
 
-          <p className="text-white mt-6 font-light text-lg md:text-m tracking-wide leading-relaxed max-w-3xl mx-auto">
+          <p className="text-green-50 mt-4 text-base leading-relaxed max-w-2xl mx-auto">
             Join thousands of farmers who are already making a difference while
             earning an extra income.
           </p>
 
           <button
             onClick={() => navigate("/register")}
-            className="bg-white cursor-pointer text-green-700 font-semibold py-3 px-6 rounded-xl flex items-center gap-3 mx-auto mt-8 hover:scale-105 transition duration-300"
+            className="bg-white cursor-pointer text-green-700 text-sm font-medium py-2.5 px-5 rounded-lg flex items-center gap-2 mx-auto mt-7 hover:bg-green-50 transition-colors"
           >
             Join Now
-            <ArrowRight size={20} />
+            <ArrowRight size={16} />
           </button>
         </div>
       </section>
 
-      <section className="flex flex-col items-center justify-center text-center py-10 ">
-        <div className="bg-yellow-100 w-18 h-18 rounded-full flex items-center justify-center mb-4">
-          <Lightbulb size={35} />
+      <section className="flex flex-col items-center justify-center text-center py-16 px-6">
+        <div className="bg-amber-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+          <Lightbulb size={22} className="text-amber-600" />
         </div>
 
-        <h2 className="text-2xl md:text-4xl font-bold text-black text-center">
+        <h2 className="text-3xl font-semibold text-gray-900 tracking-tight text-center">
           Smart Reuse Ideas
         </h2>
 
-        <p className="text-gray-700 mt-4 text-lg tracking-wide text-center max-w-3xl mx-auto">
+        <p className="text-gray-500 mt-3 text-base text-center max-w-2xl mx-auto">
           Discover innovative ways to transform agricultural waste into valuable
           products
         </p>
@@ -199,7 +201,7 @@ function Hero() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="max-w-6xl mx-auto mt-10 grid md:grid-cols-3 gap-14"
+          className="max-w-6xl mx-auto mt-12 grid md:grid-cols-3 gap-6"
         >
           <ReuseIdeas
             icon={<Wheat size={40} />}
@@ -258,12 +260,13 @@ function Hero() {
 
       <CommunityReuseIdeas />
 
-      <div className="bg-green-50 mx-150 my-10 p-4 border border-green-700/40 rounded-xl">
-        <p className="text-center text-gray-700 text-md leading-relaxed  ">
-          <b>Did you know? </b>Agricultural waste can be transformed into
-          biofuels, organic fertilizers, building materials, and eco-friendly
-          products. Every kilogram of waste reused helps reduce carbon emissions
-          and supports sustainable farming.
+      <div className="bg-green-50 max-w-3xl mx-auto my-16 p-5 border border-green-100 rounded-xl">
+        <p className="text-center text-gray-600 text-sm leading-relaxed">
+          <span className="font-semibold text-gray-900">Did you know? </span>
+          Agricultural waste can be transformed into biofuels, organic
+          fertilizers, building materials, and eco-friendly products. Every
+          kilogram of waste reused helps reduce carbon emissions and supports
+          sustainable farming.
         </p>
       </div>
     </div>

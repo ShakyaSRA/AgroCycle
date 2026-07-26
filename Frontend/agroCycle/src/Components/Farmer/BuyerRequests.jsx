@@ -4,13 +4,13 @@ import { staggerContainer } from "../../lib/motion";
 
 function BuyerRequests({ requests, loading, onDecision }) {
   return (
-    <div className="bg-white rounded-2xl shadow p-8 mt-10">
-      <h2 className="text-3xl font-bold mb-8">Recent Buyer Requests</h2>
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6">
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">Recent Buyer Requests</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading requests...</p>
+        <p className="text-gray-500 text-sm">Loading requests...</p>
       ) : requests.length === 0 ? (
-        <p className="text-gray-500">No buyer requests yet.</p>
+        <p className="text-gray-500 text-sm">No buyer requests yet.</p>
       ) : (
         <motion.div
           variants={staggerContainer}

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Users, Box, DollarSign, TrendingUp } from "lucide-react";
 
 import StatsCard from "../Admin/StatsCard";
@@ -8,11 +9,8 @@ function currency(amount) {
   return `LKR ${Number(amount || 0).toLocaleString()}`;
 }
 
-function scrollToId(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
 function FarmerStats({ listings, requests }) {
+  const navigate = useNavigate();
   const activeListings = listings.filter((l) => l.status === "Approved").length;
   const totalRequests = requests.length;
 
@@ -44,32 +42,32 @@ function FarmerStats({ listings, requests }) {
         title="Active Listings"
         value={activeListings}
         icon={<Box />}
-        iconColor="bg-blue-500 text-white"
-        onClick={() => scrollToId("my-listings")}
+        iconColor="bg-blue-50 text-blue-600"
+        onClick={() => navigate("/farmer/listings")}
       />
 
       <StatsCard
         title="Total Requests"
         value={totalRequests}
         icon={<Users />}
-        iconColor="bg-green-500 text-white"
-        onClick={() => scrollToId("buyer-requests")}
+        iconColor="bg-green-50 text-green-600"
+        onClick={() => navigate("/farmer/requests")}
       />
 
       <StatsCard
         title="Total Sales"
         value={currency(totalSales)}
         icon={<DollarSign />}
-        iconColor="bg-purple-500 text-white"
-        onClick={() => scrollToId("my-listings")}
+        iconColor="bg-purple-50 text-purple-600"
+        onClick={() => navigate("/farmer/listings")}
       />
 
       <StatsCard
         title="This Month"
         value={currency(thisMonthSales)}
         icon={<TrendingUp />}
-        iconColor="bg-orange-500 text-white"
-        onClick={() => scrollToId("my-listings")}
+        iconColor="bg-orange-50 text-orange-600"
+        onClick={() => navigate("/farmer/listings")}
       />
     </motion.div>
   );

@@ -97,37 +97,37 @@ function Payment({ request, onClose, onSuccess }) {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative"
+        className="bg-white rounded-2xl border border-gray-200 shadow-lg w-full max-w-md p-6 relative"
       >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
-        <h2 className="text-2xl font-bold text-gray-900">Complete Payment</h2>
-        <p className="text-gray-500 mt-1">
+        <h2 className="text-lg font-semibold text-gray-900">Complete Payment</h2>
+        <p className="text-gray-500 text-sm mt-1">
           {listing?.category?.name} — {priceLabel}
         </p>
 
         {!method && (
-          <div className="mt-6 grid grid-cols-2 gap-4">
+          <div className="mt-6 grid grid-cols-2 gap-3">
             <button
               onClick={() => setMethod("card")}
-              className="border-2 border-gray-200 rounded-2xl p-6 hover:border-green-500 hover:shadow-md transition flex flex-col items-center gap-3"
+              className="border border-gray-200 rounded-xl p-5 hover:border-green-500 hover:bg-green-50/40 transition-colors flex flex-col items-center gap-2.5"
             >
-              <CreditCard size={32} className="text-green-600" />
-              <span className="font-semibold">Card</span>
+              <CreditCard size={26} className="text-green-600" />
+              <span className="text-sm font-semibold text-gray-900">Card</span>
               <span className="text-xs text-gray-500">Visa / Debit</span>
             </button>
 
             <button
               onClick={() => setMethod("cod")}
-              className="border-2 border-gray-200 rounded-2xl p-6 hover:border-green-500 hover:shadow-md transition flex flex-col items-center gap-3"
+              className="border border-gray-200 rounded-xl p-5 hover:border-green-500 hover:bg-green-50/40 transition-colors flex flex-col items-center gap-2.5"
             >
-              <Truck size={32} className="text-green-600" />
-              <span className="font-semibold">Cash on Delivery</span>
+              <Truck size={26} className="text-green-600" />
+              <span className="text-sm font-semibold text-gray-900">Cash on Delivery</span>
               <span className="text-xs text-gray-500">Pay when it arrives</span>
             </button>
           </div>
@@ -141,7 +141,7 @@ function Payment({ request, onClose, onSuccess }) {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               onSubmit={handleCardSubmit}
-              className="mt-6 space-y-4 overflow-hidden"
+              className="mt-6 space-y-3 overflow-hidden"
             >
               <input
                 type="text"
@@ -152,7 +152,7 @@ function Payment({ request, onClose, onSuccess }) {
                   setCard({ ...card, card_number: formatCardNumber(e.target.value) })
                 }
                 maxLength={23}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
               />
               <input
                 type="text"
@@ -160,9 +160,9 @@ function Payment({ request, onClose, onSuccess }) {
                 placeholder="Name on Card"
                 value={card.card_name}
                 onChange={(e) => setCard({ ...card, card_name: e.target.value })}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
               />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 <input
                   type="text"
                   required
@@ -172,7 +172,7 @@ function Payment({ request, onClose, onSuccess }) {
                     setCard({ ...card, card_expiry: formatExpiry(e.target.value) })
                   }
                   maxLength={5}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
                 />
                 <input
                   type="password"
@@ -183,7 +183,7 @@ function Payment({ request, onClose, onSuccess }) {
                     setCard({ ...card, cvv: e.target.value.replace(/\D/g, "").slice(0, 4) })
                   }
                   maxLength={4}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
                 />
               </div>
 
@@ -192,18 +192,18 @@ function Payment({ request, onClose, onSuccess }) {
                 Simulated payment for demo purposes — no real charge is made.
               </p>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2.5">
                 <button
                   type="button"
                   onClick={() => setMethod(null)}
-                  className="flex-1 border rounded-xl py-3 hover:bg-gray-50"
+                  className="flex-1 border border-gray-300 rounded-lg py-2.5 text-sm hover:bg-gray-50 transition-colors"
                 >
                   Back
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 bg-green-600 text-white rounded-xl py-3 font-semibold hover:bg-green-700 disabled:opacity-60"
+                  className="flex-1 bg-green-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-60 transition-colors"
                 >
                   {submitting ? "Processing..." : `Pay ${priceLabel}`}
                 </button>
@@ -219,22 +219,22 @@ function Payment({ request, onClose, onSuccess }) {
               exit={{ opacity: 0, height: 0 }}
               className="mt-6 space-y-4 overflow-hidden"
             >
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm">
                 You'll pay <span className="font-semibold">{priceLabel}</span> in
                 cash directly to the farmer when the waste is delivered/picked
                 up.
               </p>
-              <div className="flex gap-3">
+              <div className="flex gap-2.5">
                 <button
                   onClick={() => setMethod(null)}
-                  className="flex-1 border rounded-xl py-3 hover:bg-gray-50"
+                  className="flex-1 border border-gray-300 rounded-lg py-2.5 text-sm hover:bg-gray-50 transition-colors"
                 >
                   Back
                 </button>
                 <button
                   onClick={handleCod}
                   disabled={submitting}
-                  className="flex-1 bg-green-600 text-white rounded-xl py-3 font-semibold hover:bg-green-700 disabled:opacity-60"
+                  className="flex-1 bg-green-600 text-white rounded-lg py-2.5 text-sm font-medium hover:bg-green-700 disabled:opacity-60 transition-colors"
                 >
                   {submitting ? "Confirming..." : "Confirm Cash on Delivery"}
                 </button>

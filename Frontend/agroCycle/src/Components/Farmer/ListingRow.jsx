@@ -3,10 +3,10 @@ import { Pencil, Trash2 } from "lucide-react";
 import { fadeUp } from "../../lib/motion";
 
 const statusColors = {
-  Approved: "bg-green-100 text-green-700",
-  Pending: "bg-yellow-100 text-yellow-700",
-  Rejected: "bg-red-100 text-red-700",
-  Sold: "bg-gray-200 text-gray-700",
+  Approved: "bg-green-50 text-green-700",
+  Pending: "bg-yellow-50 text-yellow-700",
+  Rejected: "bg-red-50 text-red-700",
+  Sold: "bg-gray-100 text-gray-600",
 };
 
 function ListingRow({ listing, onEdit, onDelete }) {
@@ -14,8 +14,8 @@ function ListingRow({ listing, onEdit, onDelete }) {
     listing.price != null ? `LKR ${Number(listing.price).toLocaleString()}` : "Free";
 
   return (
-    <motion.tr variants={fadeUp} className="border-b h-20">
-      <td>{listing.category?.name}</td>
+    <motion.tr variants={fadeUp} className="border-b border-gray-100 h-16 text-gray-600">
+      <td className="text-gray-900 font-medium">{listing.category?.name}</td>
 
       <td>
         {listing.quantity} {listing.unit}
@@ -25,8 +25,8 @@ function ListingRow({ listing, onEdit, onDelete }) {
 
       <td>
         <span
-          className={`px-3 py-1 rounded-full text-sm ${
-            statusColors[listing.status] || "bg-gray-200 text-gray-700"
+          className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+            statusColors[listing.status] || "bg-gray-100 text-gray-600"
           }`}
         >
           {listing.status}
@@ -34,7 +34,7 @@ function ListingRow({ listing, onEdit, onDelete }) {
       </td>
 
       <td>
-        <span className="bg-blue-100 text-blue-700 rounded-full px-3 py-1">
+        <span className="bg-blue-50 text-blue-700 rounded-full px-2.5 py-1 text-xs font-medium">
           {listing.buyer_requests?.length ?? 0}
         </span>
       </td>
@@ -42,10 +42,10 @@ function ListingRow({ listing, onEdit, onDelete }) {
       <td>
         <div className="flex gap-3">
           <button onClick={onEdit} title="Edit">
-            <Pencil className="text-blue-600 cursor-pointer" size={18} />
+            <Pencil className="text-blue-600 cursor-pointer" size={16} />
           </button>
           <button onClick={onDelete} title="Delete">
-            <Trash2 className="text-red-600 cursor-pointer" size={18} />
+            <Trash2 className="text-red-600 cursor-pointer" size={16} />
           </button>
         </div>
       </td>

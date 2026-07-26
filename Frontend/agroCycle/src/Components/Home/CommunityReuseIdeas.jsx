@@ -78,27 +78,27 @@ function CommunityReuseIdeas() {
   }
 
   return (
-    <section className="py-20 px-6 bg-green-50/60">
+    <section className="py-24 px-6 bg-gray-50 border-y border-gray-100">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col items-center text-center">
-          <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-            <Lightbulb size={30} className="text-yellow-600" />
+          <div className="bg-amber-50 w-12 h-12 rounded-xl flex items-center justify-center mb-4">
+            <Lightbulb size={22} className="text-amber-600" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Community Reuse Ideas
           </h2>
-          <p className="text-gray-600 mt-4 max-w-2xl">
+          <p className="text-gray-500 mt-3 max-w-2xl text-sm">
             Ideas shared by farmers and buyers like you, reviewed and
             approved by our team.
           </p>
 
           <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={handleShareClick}
-            className="mt-8 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold py-3 px-6 rounded-xl flex items-center gap-2 hover:shadow-lg transition"
+            className="mt-7 bg-green-600 text-white text-sm font-medium py-2.5 px-5 rounded-lg flex items-center gap-2 hover:bg-green-700 transition-colors"
           >
-            <Plus size={18} />
+            <Plus size={16} />
             Share Your Idea
           </motion.button>
         </div>
@@ -111,7 +111,7 @@ function CommunityReuseIdeas() {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
               onSubmit={handleSubmit}
-              className="max-w-xl mx-auto mt-8 bg-white rounded-2xl shadow-md p-6 space-y-4 overflow-hidden"
+              className="max-w-xl mx-auto mt-8 bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 overflow-hidden"
             >
               <input
                 type="text"
@@ -182,7 +182,7 @@ function CommunityReuseIdeas() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
-            className="mt-14 grid md:grid-cols-3 gap-8"
+            className="mt-14 grid md:grid-cols-3 gap-6"
           >
             {ideas.map((idea) => {
               const Icon = getReuseIcon(idea.icon);
@@ -190,29 +190,29 @@ function CommunityReuseIdeas() {
                 <motion.div
                   key={idea.id}
                   variants={fadeUp}
-                  className="bg-green-50/40 shadow-md p-6 rounded-2xl hover:shadow-xl transition duration-300"
+                  className="bg-white border border-gray-200 shadow-sm p-6 rounded-2xl hover:shadow-md transition-shadow duration-300"
                 >
-                  <div className="w-20 h-20 bg-green-100/50 rounded-full flex items-center justify-center mx-auto text-green-600">
-                    <Icon size={36} />
+                  <div className="w-11 h-11 bg-green-50 rounded-xl flex items-center justify-center mx-auto text-green-600">
+                    <Icon size={20} />
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mt-6 text-center">
+                  <h3 className="text-lg font-semibold text-gray-900 mt-5 text-center">
                     {idea.title}
                   </h3>
 
-                  <ul className="mt-5 space-y-2 text-gray-700">
+                  <ul className="mt-4 space-y-2 text-sm text-gray-600">
                     {(idea.items || []).map((item, i) => (
                       <li
                         key={i}
-                        className="bg-white border border-green-500/30 rounded-xl shadow-sm p-2 flex items-center gap-3"
+                        className="bg-gray-50 rounded-lg p-2.5 flex items-center gap-2.5"
                       >
-                        <div className="h-2 w-2 bg-green-500 rounded-full shrink-0" />
+                        <div className="h-1.5 w-1.5 bg-green-500 rounded-full shrink-0" />
                         {item}
                       </li>
                     ))}
                   </ul>
 
-                  <p className="text-gray-500 text-sm mt-4 text-center">
+                  <p className="text-gray-400 text-xs mt-4 text-center">
                     Shared by {idea.user?.name || "an AgroCycle user"}
                   </p>
                 </motion.div>
