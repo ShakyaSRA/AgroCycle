@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import WasteCard from "./WasteCard";
 import { staggerContainer } from "../../lib/motion";
 
-function WasteGrid({ listings, loading }) {
+function WasteGrid({ listings, loading, onOpenDetail }) {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto mt-10 py-10 text-center text-gray-500">
@@ -27,7 +27,7 @@ function WasteGrid({ listings, loading }) {
       className="max-w-7xl mx-auto mt-10 grid md:grid-cols-3 gap-10 py-10"
     >
       {listings.map((listing) => (
-        <WasteCard key={listing.id} listing={listing} />
+        <WasteCard key={listing.id} listing={listing} onOpenDetail={onOpenDetail} />
       ))}
     </motion.div>
   );

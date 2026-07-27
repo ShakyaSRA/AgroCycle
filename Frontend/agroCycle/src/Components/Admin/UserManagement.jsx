@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Ban, ShieldCheck, Trash, Loader2 } from "lucide-react";
+import { Ban, ShieldCheck, Trash, Loader2, Search } from "lucide-react";
 import { staggerContainer, fadeUp } from "../../lib/motion";
 
 function UserManagement({ users, loading, onToggleStatus, onDelete }) {
   const [busyId, setBusyId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+
+  const filteredUsers = users.filter((u) => {
+    const q = search.trim().toLowerCase();
+    const matchesSearch =
+      !q || u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
+    const matchesRole = roleFilter === "all" || u.role === roleFilter;
+    return matchesSearch && matchesRole;
+  });
 
   async function handleToggle(id) {
     setBusyId(id);
@@ -28,10 +38,35 @@ function UserManagement({ users, loading, onToggleStatus, onDelete }) {
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6">
       <h2 className="text-lg font-semibold text-gray-900 mb-6">User Management</h2>
 
+      <div className="flex flex-col sm:flex-row gap-3 mb-5">
+        <div className="flex items-center flex-1 border border-gray-300 rounded-lg px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
+          <Search className="text-gray-400" size={16} />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name or email..."
+            className="w-full ml-2.5 outline-none text-sm"
+          />
+        </div>
+
+        <select
+          value={roleFilter}
+          onChange={(e) => setRoleFilter(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition"
+        >
+          <option value="all">All roles</option>
+          <option value="farmer">Farmer</option>
+          <option value="buyer">Buyer</option>
+        </select>
+      </div>
+
       {loading ? (
         <p className="text-gray-500 text-sm">Loading users...</p>
       ) : users.length === 0 ? (
         <p className="text-gray-500 text-sm">No users yet.</p>
+      ) : filteredUsers.length === 0 ? (
+        <p className="text-gray-500 text-sm">No users match your search.</p>
       ) : (
         <table className="w-full text-sm">
           <thead>
@@ -46,7 +81,7 @@ function UserManagement({ users, loading, onToggleStatus, onDelete }) {
           </thead>
 
           <motion.tbody variants={staggerContainer} initial="hidden" animate="show">
-            {users.map((u) => {
+            {filteredUsers.map((u) => {
               const isBusy = busyId === u.id;
               return (
                 <motion.tr variants={fadeUp} key={u.id} className="border-t border-gray-100">

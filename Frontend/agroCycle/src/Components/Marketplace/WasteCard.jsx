@@ -8,7 +8,7 @@ import { useToast } from "../../context/ToastContext";
 import { createBuyerRequest } from "../../api/buyerRequests";
 import { API_URL } from "../../api/client";
 
-function WasteCard({ listing }) {
+function WasteCard({ listing, onOpenDetail }) {
   const { user } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
@@ -62,7 +62,8 @@ function WasteCard({ listing }) {
     <motion.div
       variants={fadeUp}
       whileHover={{ y: -4 }}
-      className="overflow-hidden border border-gray-200 shadow-sm rounded-2xl bg-white hover:shadow-md transition-shadow duration-300"
+      onClick={() => onOpenDetail?.(listing)}
+      className="overflow-hidden border border-gray-200 shadow-sm rounded-2xl bg-white hover:shadow-md transition-shadow duration-300 cursor-pointer"
     >
       {listing.images?.length ? (
         <img
@@ -108,47 +109,49 @@ function WasteCard({ listing }) {
         </li>
       </ul>
 
-      {showForm ? (
-        <div className="mt-5 space-y-2.5">
-          <textarea
-            rows={3}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Add a message for the farmer (optional)"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500 resize-none"
-          />
-          <div className="flex gap-2.5">
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <motion.button
-              whileHover={{ scale: sending ? 1 : 1.02 }}
-              whileTap={{ scale: sending ? 1 : 0.98 }}
-              type="button"
-              onClick={handleSend}
-              disabled={sending}
-              className="flex-1 bg-green-600 text-white text-sm rounded-lg py-2 flex items-center justify-center gap-2 hover:bg-green-700 disabled:opacity-60 transition-colors"
-            >
-              <Send size={15} />
-              {sending ? "Sending..." : "Send"}
-            </motion.button>
+      <div onClick={(e) => e.stopPropagation()}>
+        {showForm ? (
+          <div className="mt-5 space-y-2.5">
+            <textarea
+              rows={3}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Add a message for the farmer (optional)"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500 resize-none"
+            />
+            <div className="flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                className="flex-1 border border-gray-300 rounded-lg py-2 text-sm hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <motion.button
+                whileHover={{ scale: sending ? 1 : 1.02 }}
+                whileTap={{ scale: sending ? 1 : 0.98 }}
+                type="button"
+                onClick={handleSend}
+                disabled={sending}
+                className="flex-1 bg-green-600 text-white text-sm rounded-lg py-2 flex items-center justify-center gap-2 hover:bg-green-700 disabled:opacity-60 transition-colors"
+              >
+                <Send size={15} />
+                {sending ? "Sending..." : "Send"}
+              </motion.button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <motion.button
-          whileHover={{ scale: sent ? 1 : 1.02 }}
-          whileTap={{ scale: sent ? 1 : 0.98 }}
-          onClick={handleRequestClick}
-          disabled={sent}
-          className="mt-5 w-full bg-green-600 cursor-pointer text-white text-sm font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-60"
-        >
-          {sent ? "Request Sent" : "Request Pickup"}
-        </motion.button>
-      )}
+        ) : (
+          <motion.button
+            whileHover={{ scale: sent ? 1 : 1.02 }}
+            whileTap={{ scale: sent ? 1 : 0.98 }}
+            onClick={handleRequestClick}
+            disabled={sent}
+            className="mt-5 w-full bg-green-600 cursor-pointer text-white text-sm font-medium py-2.5 px-4 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-60"
+          >
+            {sent ? "Request Sent" : "Request Pickup"}
+          </motion.button>
+        )}
+      </div>
       </div>
     </motion.div>
   );

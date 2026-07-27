@@ -68,6 +68,16 @@ class User extends Authenticatable
         return $this->hasMany(BuyerRequest::class, 'buyer_id');
     }
 
+    public function ratingsReceived()
+    {
+        return $this->hasMany(FarmerRating::class, 'farmer_id');
+    }
+
+    public function ratingsGiven()
+    {
+        return $this->hasMany(FarmerRating::class, 'buyer_id');
+    }
+
     public function sentMessages()
     {
         return $this->hasMany(Message::class, 'sender_id');

@@ -15,6 +15,7 @@ import BuyerOverview from "./Pages/Buyer/BuyerOverview";
 import BuyerRequestsPage from "./Pages/Buyer/BuyerRequestsPage";
 import AddWaste from "./Pages/AddWaste";
 import Messages from "./Pages/Messages";
+import Profile from "./Pages/Profile";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { pageFade } from "./lib/motion";
 
@@ -127,6 +128,14 @@ function AnimatedRoutes() {
           element={
             <ProtectedRoute allowedRoles={["farmer", "buyer"]}>
               <Page><Messages /></Page>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={["admin", "farmer", "buyer"]}>
+              <Page><Profile /></Page>
             </ProtectedRoute>
           }
         />

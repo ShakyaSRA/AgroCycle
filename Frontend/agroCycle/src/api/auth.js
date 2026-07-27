@@ -17,3 +17,7 @@ export function logout() {
 export function me() {
   return client.get("/me").then((res) => res.data);
 }
+
+export function updateProfile(data) {
+  return client.put("/me", data).then((res) => res.data);
+}

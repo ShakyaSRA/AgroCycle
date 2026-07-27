@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import MarketplaceHero from "../Components/Marketplace/MarketplaceHero";
 import WasteGrid from "../Components/Marketplace/WasteGrid";
 import Search from "../Components/Marketplace/Search";
+import ListingDetailModal from "../Components/Marketplace/ListingDetailModal";
 import { getListings } from "../api/listings";
 
 function Marketplace() {
@@ -12,6 +14,7 @@ function Marketplace() {
   const [listings, setListings] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [selectedListingId, setSelectedListingId] = useState(null);
 
   useEffect(() => {
     getListings()
@@ -47,7 +50,19 @@ function Marketplace() {
         resultCount={listings.length}
         totalCount={totalCount}
       />
-      <WasteGrid listings={listings} loading={loading} />
+      <WasteGrid
+        listings={listings}
+        loading={loading}
+        onOpenDetail={(listing) => setSelectedListingId(listing.id)}
+      />
+      <AnimatePresence>
+        {selectedListingId && (
+          <ListingDetailModal
+            listingId={selectedListingId}
+            onClose={() => setSelectedListingId(null)}
+          />
+        )}
+      </AnimatePresence>
       <Footer />
     </div>
   );

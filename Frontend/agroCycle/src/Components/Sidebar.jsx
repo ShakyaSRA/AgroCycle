@@ -9,6 +9,7 @@ import {
   MessageSquare,
   LogOut,
   Shield,
+  UserCircle,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -32,13 +33,15 @@ const NAV_ITEMS = {
   ],
 };
 
+const COMMON_ITEMS = [{ to: "/profile", label: "Profile", icon: UserCircle }];
+
 function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   if (!user) return null;
 
-  const items = NAV_ITEMS[user.role] || [];
+  const items = [...(NAV_ITEMS[user.role] || []), ...COMMON_ITEMS];
 
   async function handleLogout() {
     await logout();

@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BuyerRequestController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryRequestController;
+use App\Http\Controllers\FarmerRatingController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ReuseIdeaController;
 use App\Http\Controllers\WasteListingController;
@@ -18,10 +19,12 @@ Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/waste-listings', [WasteListingController::class, 'index']);
 Route::get('/waste-listings/{wasteListing}', [WasteListingController::class, 'show']);
 Route::get('/reuse-ideas', [ReuseIdeaController::class, 'index']);
+Route::get('/farmers/{farmer}/ratings', [FarmerRatingController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
+    Route::put('/me', [AuthController::class, 'update']);
 
     Route::get('/my-listings', [WasteListingController::class, 'mine']);
     Route::put('/waste-listings/{wasteListing}', [WasteListingController::class, 'update']);
@@ -46,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:buyer')->group(function () {
         Route::post('/buyer-requests', [BuyerRequestController::class, 'store']);
         Route::patch('/buyer-requests/{buyerRequest}/pay', [BuyerRequestController::class, 'pay']);
+        Route::post('/farmers/{farmer}/ratings', [FarmerRatingController::class, 'store']);
     });
 
     Route::middleware('role:admin')->prefix('admin')->group(function () {

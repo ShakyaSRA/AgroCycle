@@ -11,7 +11,7 @@ class WasteListingController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $query = WasteListing::with(['farmer:id,name,location,phone', 'category', 'images']);
+        $query = WasteListing::with(['farmer:id,name,location,phone,description', 'category', 'images']);
 
         if ($user && $user->role === 'admin') {
             if ($request->filled('status')) {
@@ -47,7 +47,7 @@ class WasteListingController extends Controller
 
     public function show(WasteListing $wasteListing)
     {
-        return $wasteListing->load(['farmer:id,name,location,phone', 'category', 'images']);
+        return $wasteListing->load(['farmer:id,name,location,phone,description', 'category', 'images']);
     }
 
     public function store(Request $request)
