@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { Trash } from "lucide-react";
 import DashboardLayout from "../../Components/DashboardLayout";
+import ConfirmDialog from "../../Components/ConfirmDialog";
 import UserManagement from "../../Components/Admin/UserManagement";
 import { useToast } from "../../context/ToastContext";
 import { getUsers, toggleUserStatus, deleteUser } from "../../api/admin";
@@ -8,6 +10,8 @@ function AdminUsers() {
   const { showToast } = useToast();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const loadData = useCallback(() => {
     setLoading(true);
@@ -32,11 +36,18 @@ function AdminUsers() {
     }
   }
 
-  async function handleDeleteUser(id) {
-    if (!window.confirm("Delete this user? This cannot be undone.")) return;
+  function confirmDeleteUser(id) {
+    setDeleteId(id);
+    setDeleteDialogOpen(true);
+  }
+
+  async function handleDeleteUser() {
+    if (!deleteId) return;
     try {
-      await deleteUser(id);
+      await deleteUser(deleteId);
       showToast("User deleted.");
+      setDeleteDialogOpen(false);
+      setDeleteId(null);
       loadData();
     } catch {
       showToast("Could not delete user.", "error");
@@ -57,7 +68,22 @@ function AdminUsers() {
           users={users}
           loading={loading}
           onToggleStatus={handleToggleStatus}
-          onDelete={handleDeleteUser}
+          onDelete={confirmDeleteUser}
+        />
+
+        <ConfirmDialog
+          open={deleteDialogOpen}
+          title="Delete user"
+          message="Are you sure you want to delete this user? This cannot be undone."
+          confirmText="Delete"
+          cancelText="Cancel"
+          icon={Trash}
+          confirmColor="red"
+          onConfirm={handleDeleteUser}
+          onCancel={() => {
+            setDeleteDialogOpen(false);
+            setDeleteId(null);
+          }}
         />
       </div>
     </DashboardLayout>

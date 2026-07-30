@@ -11,10 +11,15 @@ const statusColors = {
 
 function ListingRow({ listing, onEdit, onDelete }) {
   const priceLabel =
-    listing.price != null ? `LKR ${Number(listing.price).toLocaleString()}` : "Free";
+    listing.price != null
+      ? `LKR ${Number(listing.price).toLocaleString()}`
+      : "Free";
 
   return (
-    <motion.tr variants={fadeUp} className="border-b border-gray-100 h-16 text-gray-600">
+    <motion.tr
+      variants={fadeUp}
+      className="border-b border-gray-100 h-16 text-gray-600"
+    >
       <td className="text-gray-900 font-medium">{listing.category?.name}</td>
 
       <td>
@@ -24,13 +29,23 @@ function ListingRow({ listing, onEdit, onDelete }) {
       <td>{priceLabel}</td>
 
       <td>
-        <span
-          className={`px-2.5 py-1 rounded-full text-xs font-medium ${
-            statusColors[listing.status] || "bg-gray-100 text-gray-600"
-          }`}
-        >
-          {listing.status}
-        </span>
+        <div>
+          <span
+            className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+              statusColors[listing.status] || "bg-gray-100 text-gray-600"
+            }`}
+          >
+            {listing.status}
+          </span>
+          {listing.status === "Rejected" && listing.rejection_reason ? (
+            <p
+              className="mt-1 text-xs text-red-600 max-w-[16rem] truncate"
+              title={listing.rejection_reason}
+            >
+              {listing.rejection_reason}
+            </p>
+          ) : null}
+        </div>
       </td>
 
       <td>

@@ -16,6 +16,8 @@ class WasteListingController extends Controller
         if ($user && $user->role === 'admin') {
             if ($request->filled('status')) {
                 $query->where('status', $request->query('status'));
+            } else {
+                $query->where('status', 'Approved');
             }
         } else {
             $query->where('status', 'Approved');
@@ -26,7 +28,7 @@ class WasteListingController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('description', 'like', "%{$search}%")
                     ->orWhere('location', 'like', "%{$search}%")
-                    ->orWhereHas('category', fn ($c) => $c->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('category', fn($c) => $c->where('name', 'like', "%{$search}%"));
             });
         }
 
@@ -88,7 +90,16 @@ class WasteListingController extends Controller
         if ($user->role === 'admin') {
             $data = $request->validate([
                 'status' => 'required|in:Pending,Approved,Rejected,Sold',
+                'rejection_reason' => 'nullable|string|max:1000',
             ]);
+
+            if ($data['status'] === 'Rejected') {
+                if (empty(trim($data['rejection_reason'] ?? ''))) {
+                    abort(422, 'Rejection reason is required when rejecting a listing.');
+                }
+            } else {
+                $data['rejection_reason'] = null;
+            }
 
             $wasteListing->update($data);
 

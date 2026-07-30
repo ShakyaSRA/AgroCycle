@@ -30,8 +30,8 @@ function Login() {
         user.role === "admin"
           ? "/admin/stats"
           : user.role === "farmer"
-          ? "/farmer"
-          : "/buyer";
+            ? "/farmer"
+            : "/buyer";
       navigate(dashboardPath);
     } catch (err) {
       const message =
@@ -52,25 +52,31 @@ function Login() {
         <div className="w-full max-w-4xl grid lg:grid-cols-2 rounded-2xl border border-gray-200 shadow-sm overflow-hidden bg-white">
           <div className="hidden lg:flex relative flex-col justify-between bg-green-700 p-10">
             <div>
-              <img src={logo} alt="logo" className="w-11 h-11 object-contain" />
+              <div className="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                <img
+                  src={logo}
+                  alt="AgroCycle Logo"
+                  className="w-10 h-10 object-contain flex justify-center"
+                />
+              </div>
               <h2 className="text-white text-2xl font-semibold mt-8 tracking-tight">
                 Welcome back to AgroCycle
               </h2>
               <p className="text-green-100 mt-3 text-sm leading-relaxed">
-                Turning agricultural waste into value — connect with buyers,
-                recyclers, and eco-friendly product makers.
+                Turning agricultural waste into value — <br></br>Connect with
+                buyers, recyclers, and eco-friendly product makers.
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 text-sm text-green-100">
-              <div className="flex items-center gap-2">
-                <Leaf size={16} /> Eco-Friendly
+            <div className="flex flex-row gap-6 text-sm text-green-100">
+              <div className="flex items-center gap-1 text-xs">
+                <Leaf size={14} /> Eco-Friendly
               </div>
-              <div className="flex items-center gap-2">
-                <Recycle size={16} /> Circular Economy
+              <div className="flex items-center gap-1 text-xs">
+                <Recycle size={14} /> Circular Economy
               </div>
-              <div className="flex items-center gap-2">
-                <Sprout size={16} /> Sustainable
+              <div className="flex items-center gap-1 text-xs">
+                <Sprout size={14} /> Sustainable
               </div>
             </div>
           </div>
@@ -81,9 +87,13 @@ function Login() {
             transition={{ duration: 0.35 }}
             className="p-8 md:p-12 flex flex-col justify-center"
           >
-            <h2 className="text-xl font-semibold text-gray-900 tracking-tight">Welcome Back</h2>
+            <h2 className="text-xl font-semibold text-gray-900 tracking-tight">
+              Welcome Back
+            </h2>
 
-            <p className="text-gray-500 text-sm mt-1.5">Login to your account</p>
+            <p className="text-gray-500 text-sm mt-1.5">
+              Login to your account
+            </p>
 
             <motion.form
               variants={staggerContainer}

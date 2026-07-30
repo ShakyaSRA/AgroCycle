@@ -9,12 +9,14 @@ function Footer() {
         <div className="max-w-sm">
           <div className="flex items-center gap-2.5">
             <img src={logo} alt="logo" className="w-8 h-8 object-contain" />
-            <span className="text-lg font-semibold text-gray-900">AgroCycle</span>
+            <span className="text-lg font-semibold text-gray-900">
+              AgroCycle
+            </span>
           </div>
 
           <p className="text-gray-500 mt-4 text-sm leading-relaxed">
-            Turning agricultural waste into value through a sustainable
-            circular economy.
+            Turning agricultural waste into value through a sustainable circular
+            economy.
           </p>
         </div>
 
@@ -73,9 +75,7 @@ function Footer() {
         </div>
 
         <div>
-          <h2 className="text-sm font-semibold text-gray-900 mb-4">
-            Contact
-          </h2>
+          <h2 className="text-sm font-semibold text-gray-900 mb-4">Contact</h2>
 
           <ul className="space-y-3 text-sm text-gray-500">
             <li className="flex gap-2.5">

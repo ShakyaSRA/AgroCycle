@@ -14,7 +14,8 @@ class WasteListing extends Model
         'price',
         'location',
         'description',
-        'status'
+        'status',
+        'rejection_reason',
     ];
 
     public function farmer()

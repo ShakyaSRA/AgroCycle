@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { MapPin, MessageSquare, CreditCard, Truck, CheckCircle2 } from "lucide-react";
+import {
+  MapPin,
+  MessageSquare,
+  CreditCard,
+  Truck,
+  CheckCircle2,
+} from "lucide-react";
 import { fadeUp } from "../../lib/motion";
-import Payment from "./Payment";
+import Payment from "../../Pages/Buyer/PaymentPage";
 
 const statusColors = {
   Pending: "bg-yellow-50 text-yellow-700",
@@ -16,13 +22,20 @@ function BuyerRequestCard({ request, onPaymentComplete }) {
   const [showPayment, setShowPayment] = useState(false);
   const listing = request.listing;
   const priceLabel =
-    listing?.price != null ? `LKR ${Number(listing.price).toLocaleString()}` : "Free";
+    listing?.price != null
+      ? `LKR ${Number(listing.price).toLocaleString()}`
+      : "Free";
 
   return (
-    <motion.div variants={fadeUp} className="border border-gray-200 rounded-xl p-5">
+    <motion.div
+      variants={fadeUp}
+      className="border border-gray-200 rounded-xl p-5"
+    >
       <div className="flex justify-between">
         <div>
-          <h3 className="text-base font-semibold text-gray-900">{listing?.category?.name}</h3>
+          <h3 className="text-base font-semibold text-gray-900">
+            {listing?.category?.name}
+          </h3>
           <p className="text-gray-500 text-sm mt-1">
             {listing?.quantity} {listing?.unit} — {priceLabel}
           </p>
@@ -59,15 +72,16 @@ function BuyerRequestCard({ request, onPaymentComplete }) {
               <Truck size={15} />
               Cash on Delivery
             </span>
-          ) : (
+          ) : // Only show payment option when the listing has a price > 0
+          listing?.price != null && Number(listing.price) > 0 ? (
             <button
-              onClick={() => setShowPayment(true)}
+              onClick={() => navigate(`/payment/${request.id}`)}
               className="w-full bg-green-600 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
             >
               <CreditCard size={15} />
               Pay Now
             </button>
-          )}
+          ) : null}
         </div>
       )}
 

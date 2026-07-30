@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
@@ -12,9 +12,10 @@ function BuyerRequestsPage() {
   const { showToast } = useToast();
   const location = useLocation();
   const [requests, setRequests] = useState([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState(
-    location.state?.statusFilter ?? null
+    location.state?.statusFilter ?? null,
   );
 
   const loadData = useCallback(() => {
@@ -30,9 +31,23 @@ function BuyerRequestsPage() {
     loadData();
   }, [loadData]);
 
-  const visibleRequests = statusFilter
-    ? requests.filter((r) => r.status === statusFilter)
-    : requests;
+  const visibleRequests = useMemo(() => {
+    return requests.filter((request) => {
+      const matchesStatus = statusFilter
+        ? request.status === statusFilter
+        : true;
+      const matchesSearch = search
+        ? [
+            request.listing?.category?.name,
+            request.listing?.description,
+            request.listing?.location,
+          ]
+            .filter(Boolean)
+            .some((value) => value.toLowerCase().includes(search.toLowerCase()))
+        : true;
+      return matchesStatus && matchesSearch;
+    });
+  }, [requests, search, statusFilter]);
 
   return (
     <DashboardLayout>
@@ -48,18 +63,35 @@ function BuyerRequestsPage() {
           id="my-requests"
           className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6"
         >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">Requests</h2>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900">Requests</h2>
+            </div>
 
-            {statusFilter && (
-              <button
-                onClick={() => setStatusFilter(null)}
-                className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-xs font-medium hover:bg-green-100"
-              >
-                Filtered: {statusFilter}
-                <X size={14} />
-              </button>
-            )}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="w-full sm:w-72">
+                <label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1">
+                  Search requests
+                </label>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search by category, location, or description"
+                  className="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm text-gray-700 focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition"
+                />
+              </div>
+
+              {statusFilter && (
+                <button
+                  onClick={() => setStatusFilter(null)}
+                  className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1.5 rounded-full text-xs font-medium hover:bg-green-100"
+                >
+                  Filtered: {statusFilter}
+                  <X size={14} />
+                </button>
+              )}
+            </div>
           </div>
 
           {loading ? (

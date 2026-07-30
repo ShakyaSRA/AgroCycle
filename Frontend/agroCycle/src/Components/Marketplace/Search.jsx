@@ -7,6 +7,9 @@ function SearchFilterBar({
   onSearchChange,
   categoryId,
   onCategoryChange,
+  status,
+  onStatusChange,
+  isAdmin,
   resultCount,
   totalCount,
 }) {

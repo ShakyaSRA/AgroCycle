@@ -7,10 +7,13 @@ import WasteGrid from "../Components/Marketplace/WasteGrid";
 import Search from "../Components/Marketplace/Search";
 import ListingDetailModal from "../Components/Marketplace/ListingDetailModal";
 import { getListings } from "../api/listings";
+import { useAuth } from "../context/AuthContext";
 
 function Marketplace() {
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [status, setStatus] = useState("");
+  const { user } = useAuth();
   const [listings, setListings] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -27,6 +30,7 @@ function Marketplace() {
     const params = {};
     if (search) params.search = search;
     if (categoryId) params.category_id = categoryId;
+    if (status) params.status = status;
 
     const timeout = setTimeout(() => {
       getListings(params)
@@ -36,7 +40,7 @@ function Marketplace() {
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [search, categoryId]);
+  }, [search, categoryId, status]);
 
   return (
     <div>
@@ -47,6 +51,9 @@ function Marketplace() {
         onSearchChange={setSearch}
         categoryId={categoryId}
         onCategoryChange={setCategoryId}
+        status={status}
+        onStatusChange={setStatus}
+        isAdmin={user?.role === "admin"}
         resultCount={listings.length}
         totalCount={totalCount}
       />

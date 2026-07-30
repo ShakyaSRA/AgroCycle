@@ -41,12 +41,7 @@ function Sidebar() {
 
   if (!user) return null;
 
-  const items = [...(NAV_ITEMS[user.role] || []), ...COMMON_ITEMS];
-
-  async function handleLogout() {
-    await logout();
-    navigate("/");
-  }
+  const items = [...COMMON_ITEMS, ...(NAV_ITEMS[user.role] || [])];
 
   return (
     <aside className="hidden md:flex w-60 shrink-0 flex-col justify-between bg-white border-r border-gray-200 sticky top-16 h-[calc(100vh-4rem)] py-6 px-3">
@@ -82,14 +77,6 @@ function Sidebar() {
           ))}
         </nav>
       </div>
-
-      <button
-        onClick={handleLogout}
-        className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-red-50 hover:text-red-600 font-medium transition-colors cursor-pointer"
-      >
-        <LogOut size={17} />
-        Logout
-      </button>
     </aside>
   );
 }

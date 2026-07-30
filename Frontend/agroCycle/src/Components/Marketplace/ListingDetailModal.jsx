@@ -30,7 +30,9 @@ function ListingDetailModal({ listingId, onClose }) {
   }, [listingId]);
 
   const priceLabel =
-    listing?.price != null ? `LKR ${Number(listing.price).toLocaleString()}` : "Free";
+    listing?.price != null
+      ? `LKR ${Number(listing.price).toLocaleString()}`
+      : "Free";
 
   return (
     <motion.div
@@ -52,7 +54,10 @@ function ListingDetailModal({ listingId, onClose }) {
           <h3 className="text-lg font-semibold text-gray-900">
             {listing?.category?.name || "Listing"}
           </h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-700 cursor-pointer">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-700 cursor-pointer"
+          >
             <X size={20} />
           </button>
         </div>
@@ -74,7 +79,9 @@ function ListingDetailModal({ listingId, onClose }) {
               </div>
             )}
 
-            <p className="text-gray-500 text-sm mt-4 leading-relaxed">{listing.description}</p>
+            <p className="text-gray-500 text-sm mt-4 leading-relaxed">
+              {listing.description}
+            </p>
 
             <div className="mt-4 space-y-2 text-sm text-gray-600">
               <div className="flex items-center gap-2">
@@ -87,11 +94,15 @@ function ListingDetailModal({ listingId, onClose }) {
               </div>
               <div className="flex items-center gap-2">
                 <User size={16} className="text-gray-400" />
-                {listing.farmer?.name} ({listing.farmer?.phone || "no phone on file"})
+                {listing.farmer?.name} (
+                {listing.farmer?.phone || "no phone on file"})
               </div>
               <div className="flex items-start gap-2">
                 <FileText size={16} className="text-gray-400 mt-0.5" />
-                <span>{listing.farmer?.description || "This farmer hasn't added a bio yet."}</span>
+                <span>
+                  {listing.farmer?.description ||
+                    "This farmer hasn't added a bio yet."}
+                </span>
               </div>
             </div>
 

@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import { getCategories } from "../../api/categories";
+import { createCategoryRequest } from "../../api/categoryRequests";
 import { createListing, updateListing, getListing } from "../../api/listings";
 import { API_URL } from "../../api/client";
 import { useToast } from "../../context/ToastContext";
@@ -34,6 +35,10 @@ function AddWasteForm() {
   const [existingImages, setExistingImages] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(!!editId);
+
+  const [showCategoryRequest, setShowCategoryRequest] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [requestingCategory, setRequestingCategory] = useState(false);
 
   useEffect(() => {
     getCategories()
@@ -70,6 +75,34 @@ function AddWasteForm() {
 
   function removeImage(index) {
     setImages(images.filter((_, i) => i !== index));
+  }
+
+  async function handleCategoryRequest() {
+    if (!newCategoryName.trim()) {
+      showToast("Please enter the waste category name.", "error");
+      return;
+    }
+
+    setRequestingCategory(true);
+
+    try {
+      await createCategoryRequest({
+        name: newCategoryName.trim(),
+      });
+
+      showToast("Category request submitted for admin approval.");
+      setNewCategoryName("");
+      setShowCategoryRequest(false);
+    } catch (err) {
+      showToast(
+        err.response?.data?.message ||
+          err.response?.data?.errors?.name?.[0] ||
+          "Could not submit category request.",
+        "error",
+      );
+    } finally {
+      setRequestingCategory(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -141,19 +174,75 @@ function AddWasteForm() {
 
             <select
               name="category_id"
-              required
+              required={!showCategoryRequest}
               value={form.category_id}
-              onChange={handleChange}
+              onChange={(e) => {
+                if (e.target.value === "request-new") {
+                  setShowCategoryRequest(true);
+                  setForm({ ...form, category_id: "" });
+                } else {
+                  setShowCategoryRequest(false);
+                  handleChange(e);
+                }
+              }}
               className="ml-2.5 w-full outline-none bg-transparent text-sm"
             >
               <option value="">Select waste type</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
+
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
                 </option>
               ))}
+
+              <option value="request-new">
+                Category not available? Request a new category
+              </option>
             </select>
           </div>
+
+          {showCategoryRequest && (
+            <div className="mt-4 rounded-xl border border-green-200 bg-green-50/50 p-4">
+              <label className="text-sm font-medium text-gray-700">
+                New category name
+              </label>
+
+              <input
+                type="text"
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="e.g. Coffee Husk"
+                className="mt-2 w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500"
+              />
+
+              <p className="mt-2 text-xs text-gray-500">
+                The category will be reviewed by an administrator before it
+                becomes available.
+              </p>
+
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCategoryRequest(false);
+                    setNewCategoryName("");
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-white"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCategoryRequest}
+                  disabled={requestingCategory}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 disabled:opacity-60"
+                >
+                  {requestingCategory ? "Submitting..." : "Submit Request"}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Quantity + Unit */}
@@ -199,7 +288,9 @@ function AddWasteForm() {
 
         {/* Price */}
         <div>
-          <label className="text-sm font-medium text-gray-700">Price (LKR, optional)</label>
+          <label className="text-sm font-medium text-gray-700">
+            Price (LKR, optional)
+          </label>
 
           <div className="flex items-center border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
             <DollarSign className="text-gray-400" size={17} />
@@ -238,7 +329,9 @@ function AddWasteForm() {
 
         {/* Description */}
         <div>
-          <label className="text-sm font-medium text-gray-700">Description</label>
+          <label className="text-sm font-medium text-gray-700">
+            Description
+          </label>
 
           <div className="flex border border-gray-300 rounded-lg mt-2 px-3.5 py-2.5 focus-within:ring-2 focus-within:ring-green-500/30 focus-within:border-green-500 transition">
             <FileText className="text-gray-400 mt-1" size={17} />
@@ -256,12 +349,18 @@ function AddWasteForm() {
 
         {/* Upload */}
         <div>
-          <label className="text-sm font-medium text-gray-700">Upload Images</label>
+          <label className="text-sm font-medium text-gray-700">
+            Upload Images
+          </label>
 
           <label className="mt-2 border-2 border-dashed border-gray-300 rounded-xl h-44 flex flex-col justify-center items-center text-gray-500 hover:border-green-500 hover:bg-green-50/30 transition-colors cursor-pointer">
             <Upload size={32} className="text-gray-400" />
-            <p className="mt-3 text-sm font-medium text-gray-600">Click to upload or drag & drop</p>
-            <p className="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 5MB</p>
+            <p className="mt-3 text-sm font-medium text-gray-600">
+              Click to upload or drag & drop
+            </p>
+            <p className="text-xs text-gray-400 mt-1">
+              PNG, JPG, JPEG up to 5MB
+            </p>
             <input
               type="file"
               multiple
@@ -321,8 +420,8 @@ function AddWasteForm() {
             {submitting
               ? "Saving..."
               : editId
-              ? "Save Changes"
-              : "Publish Listing"}
+                ? "Save Changes"
+                : "Publish Listing"}
           </motion.button>
         </div>
       </div>

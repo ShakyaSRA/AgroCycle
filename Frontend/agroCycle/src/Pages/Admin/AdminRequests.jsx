@@ -1,9 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import DashboardLayout from "../../Components/DashboardLayout";
 import PendingReviews from "../../Components/Admin/PendingReviews";
+import RejectReasonDialog from "../../Components/Admin/RejectReasonDialog";
 import { useToast } from "../../context/ToastContext";
 import { getListings, updateListingStatus } from "../../api/listings";
-import { getCategoryRequests, updateCategoryRequest } from "../../api/categories";
+import {
+  getCategoryRequests,
+  updateCategoryRequest,
+} from "../../api/categories";
 import { getAdminReuseIdeas, updateReuseIdea } from "../../api/reuseIdeas";
 
 function AdminRequests() {
@@ -12,6 +16,9 @@ function AdminRequests() {
   const [pendingCategoryRequests, setPendingCategoryRequests] = useState([]);
   const [pendingReuseIdeas, setPendingReuseIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [activeRejectListing, setActiveRejectListing] = useState(null);
+  const [setRejectReason] = useState("");
 
   const loadData = useCallback(() => {
     setLoading(true);
@@ -23,7 +30,7 @@ function AdminRequests() {
       .then(([listingsData, categoryRequestsData, reuseIdeasData]) => {
         setPendingListings(listingsData);
         setPendingCategoryRequests(
-          categoryRequestsData.filter((r) => r.status === "Pending")
+          categoryRequestsData.filter((r) => r.status === "Pending"),
         );
         setPendingReuseIdeas(reuseIdeasData);
       })
@@ -36,14 +43,45 @@ function AdminRequests() {
     loadData();
   }, [loadData]);
 
-  async function handleListingDecision(id, status) {
+  async function handleListingApprove(id) {
     try {
-      await updateListingStatus(id, status);
-      showToast(`Listing ${status.toLowerCase()}.`);
+      await updateListingStatus(id, "Approved");
+      showToast("Listing approved.");
       loadData();
     } catch {
       showToast("Could not update listing.", "error");
     }
+  }
+
+  function handleListingReject(listing) {
+    setActiveRejectListing(listing);
+    setRejectReason("");
+    setRejectDialogOpen(true);
+  }
+
+  async function handleConfirmReject() {
+    if (!activeRejectListing) return;
+
+    try {
+      await updateListingStatus(
+        activeRejectListing.id,
+        "Rejected",
+        rejectReason,
+      );
+      showToast("Listing rejected.");
+      setRejectDialogOpen(false);
+      setActiveRejectListing(null);
+      setRejectReason("");
+      loadData();
+    } catch {
+      showToast("Could not reject listing.", "error");
+    }
+  }
+
+  function closeRejectDialog() {
+    setRejectDialogOpen(false);
+    setActiveRejectListing(null);
+    setRejectReason("");
   }
 
   async function handleCategoryRequestDecision(id, status) {
@@ -81,9 +119,19 @@ function AdminRequests() {
           categoryRequests={pendingCategoryRequests}
           reuseIdeas={pendingReuseIdeas}
           loading={loading}
-          onListingDecision={handleListingDecision}
+          onListingApprove={handleListingApprove}
+          onListingReject={handleListingReject}
           onCategoryRequestDecision={handleCategoryRequestDecision}
           onReuseIdeaDecision={handleReuseIdeaDecision}
+        />
+
+        <RejectReasonDialog
+          open={rejectDialogOpen}
+          title="Reject waste listing"
+          reason={rejectReason}
+          onReasonChange={setRejectReason}
+          onConfirm={handleConfirmReject}
+          onCancel={closeRejectDialog}
         />
       </div>
     </DashboardLayout>

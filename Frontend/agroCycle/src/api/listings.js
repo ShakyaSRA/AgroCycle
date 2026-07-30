@@ -29,9 +29,9 @@ export function updateListing(id, formData) {
     .then((res) => res.data);
 }
 
-export function updateListingStatus(id, status) {
+export function updateListingStatus(id, status, rejection_reason = null) {
   return client
-    .put(`/waste-listings/${id}`, { status })
+    .put(`/waste-listings/${id}`, { status, rejection_reason })
     .then((res) => res.data);
 }
 

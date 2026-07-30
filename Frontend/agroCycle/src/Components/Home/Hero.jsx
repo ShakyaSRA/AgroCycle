@@ -43,7 +43,7 @@ function Hero() {
 
   return (
     <div>
-      <section className="relative h-[85vh] min-h-[560px] flex flex-col items-center justify-center overflow-hidden">
+      <section className="relative h-[95vh] min-h-[560px] flex flex-col items-center justify-center overflow-hidden">
         <video
           autoPlay
           loop
@@ -54,7 +54,7 @@ function Hero() {
           <source src={bgVideo} type="video/mp4" />
         </video>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60"></div>
 
         <div className="relative z-10 text-center max-w-2xl mx-auto px-6">
           <img
@@ -95,7 +95,9 @@ function Hero() {
 
       <section className="bg-white py-24 px-6">
         <div className="text-center">
-          <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">How It Works</h2>
+          <h2 className="text-3xl font-semibold text-gray-900 tracking-tight">
+            How It Works
+          </h2>
         </div>
 
         <motion.div

@@ -1,7 +1,21 @@
 import client from "./client";
 
-export function getBuyerRequests() {
-  return client.get("/buyer-requests").then((res) => res.data);
+export async function getBuyerRequest(id) {
+  // Backend does not provide a GET for a single buyer request.
+  // Fetch the list and return the matching item.
+  const response = await client.get(`/buyer-requests`);
+  const item = response.data?.find((r) => String(r.id) === String(id));
+  if (!item) {
+    const err = new Error("Request not found");
+    err.response = { status: 404, data: { message: "Request not found" } };
+    throw err;
+  }
+  return item;
+}
+
+export async function getBuyerRequests() {
+  const response = await client.get(`/buyer-requests`);
+  return response.data;
 }
 
 export function createBuyerRequest(data) {

@@ -10,7 +10,8 @@ function PendingReviews({
   categoryRequests,
   reuseIdeas = [],
   loading,
-  onListingDecision,
+  onListingApprove,
+  onListingReject,
   onCategoryRequestDecision,
   onReuseIdeaDecision,
 }) {
@@ -18,7 +19,9 @@ function PendingReviews({
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 mt-6">
-      <h2 className="text-lg font-semibold text-gray-900 mb-6">Pending Listings for Review</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-6">
+        Pending Listings for Review
+      </h2>
 
       {loading ? (
         <p className="text-gray-500">Loading...</p>
@@ -39,8 +42,8 @@ function PendingReviews({
               user={listing.farmer?.name}
               date={new Date(listing.created_at).toLocaleDateString()}
               flagged={Number(listing.quantity) > 5000}
-              onApprove={() => onListingDecision(listing.id, "Approved")}
-              onReject={() => onListingDecision(listing.id, "Rejected")}
+              onApprove={() => onListingApprove(listing.id)}
+              onReject={() => onListingReject(listing)}
               onView={() => setViewingListing(listing)}
             />
           ))}
@@ -66,8 +69,12 @@ function PendingReviews({
                 details={request.description || "No description provided."}
                 user={request.farmer?.name}
                 date={new Date(request.created_at).toLocaleDateString()}
-                onApprove={() => onCategoryRequestDecision(request.id, "Approved")}
-                onReject={() => onCategoryRequestDecision(request.id, "Rejected")}
+                onApprove={() =>
+                  onCategoryRequestDecision(request.id, "Approved")
+                }
+                onReject={() =>
+                  onCategoryRequestDecision(request.id, "Rejected")
+                }
               />
             ))}
           </motion.div>
@@ -90,7 +97,9 @@ function PendingReviews({
               <PendingReuseIdeaCard
                 key={idea.id}
                 idea={idea}
-                onApprove={(icon) => onReuseIdeaDecision(idea.id, "Approved", icon)}
+                onApprove={(icon) =>
+                  onReuseIdeaDecision(idea.id, "Approved", icon)
+                }
                 onReject={() => onReuseIdeaDecision(idea.id, "Rejected")}
               />
             ))}
